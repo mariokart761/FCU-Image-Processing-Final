@@ -10,8 +10,8 @@ orb = cv2.ORB_create(edgeThreshold=0)
 # 调整ORB阈值参数
 max_feature = 20000
 orb.setMaxFeatures(max_feature)
+orb.setFastThreshold(20)
 
-adaptive_threshold = [20, 15, 7, 20, 13, 20, 15, 7, 20, 13, 20, 15, 7, 20, 13, 20, 15, 7, 20, 13, 20, 15, 7, 20, 13]
 
 # 将原始图像分割成5*5个子区域
 m = 5
@@ -33,9 +33,6 @@ for i in range(m):
         
         # 提取子区域
         block = img[y_start:y_end, x_start:x_end]
-        
-        # 设置FastThreshold值
-        orb.setFastThreshold(adaptive_threshold[i * 5 + j])
         
         # 在子区域上检测特征点
         keypoints = orb.detect(block, None)
