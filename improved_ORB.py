@@ -5,8 +5,7 @@ def best_orb_threshold(img, m):
     # 計算子區塊的大小
     height, width = img.shape[:2]
     block_size = int(min(height, width) / m)
-
-    # 初始化結果列表
+    
     results = []
 
     # 遍歷所有子區塊
@@ -114,7 +113,7 @@ def improved_orb_comparison(img_path1, img_path2):
     for kp in same_keypoints:
         x1, y1 = kp.pt
         x2, y2 = kp.pt
-        x2 += w  # 將第二幅圖像中的特徵點的 x 坐標偏移 w 個像素，以match合成圖像中的位置
+        x2 += w  # 將第二個圖像中的特徵點的 x 坐標偏移 w 像素，以match合成圖像中的位置
         pt1 = (int(x1), int(y1))
         pt2 = (int(x2), int(y2))
         color = tuple(np.random.randint(0, 255, 3).tolist()) # 產生隨機顏色
