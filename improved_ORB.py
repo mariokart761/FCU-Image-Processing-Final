@@ -25,7 +25,6 @@ def best_orb_threshold(img, m):
             
             best_t, thresh = cv2.threshold(block, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
             
-            
             # 將結果存入列表
             results.append((mean, int(center_pixel), int(best_t)))
     
@@ -43,7 +42,6 @@ def improved_orb_detection(img_path, m = 5):
     img = cv2.imread(img_path)
     gray_img = cv2.imread(img_path, 0)
     adaptive_threshold = best_orb_threshold(gray_img, m)
-
 
     # 初始化ORB偵測器
     orb = cv2.ORB_create(edgeThreshold=0)
@@ -83,25 +81,16 @@ def improved_orb_detection(img_path, m = 5):
             full_keypoints.extend(keypoints)
     # 繪製整張圖像的特徵點
     img_with_keypoints = cv2.drawKeypoints(img, full_keypoints, None, flags=0)
-    print("Image Path:" + img_path)
-    print("FastThreshold:" + str(orb.getFastThreshold()))
-    print("MaxFeatures:" + str(orb.getMaxFeatures()))
-    print("ScoreType:" + str(orb.getScoreType()))
-    print("keypoint_num1:" + str(len(full_keypoints)))
-
-    return img_with_keypoints,full_keypoints
-
-if __name__ == '__main__':
-    img_path1 = 'testImg.png'
-    img_path2 = 'brightFix60.png'
-    img1 = cv2.imread(img_path1)
-    img2 = cv2.imread(img_path2)
     
-    img_with_keypoints1, full_keypoints1 = improved_orb_detection(img_path1)
-    img_with_keypoints2, full_keypoints2 = improved_orb_detection(img_path2)
-    testImg = cv2.drawKeypoints(cv2.imread(img_path1), full_keypoints1, None, flags=0)
+    keypoint_num = len(full_keypoints)
     
-    h, w, _ = img1.shape
+    return img_with_keypoints, full_keypoints, keypoint_num
+
+def improved_orb_comparison(img_path1, img_path2):
+    img_with_keypoints1, full_keypoints1, keypoint_num1 = improved_orb_detection(img_path1)
+    img_with_keypoints2, full_keypoints2, keypoint_num2 = improved_orb_detection(img_path2)
+    
+    h, w, _ = cv2.imread(img_path1).shape
     combined_img = np.zeros((h, w*2, 3), dtype=np.uint8)
     combined_img[:, :w] = img_with_keypoints1
     combined_img[:, w:] = img_with_keypoints2
@@ -118,9 +107,10 @@ if __name__ == '__main__':
         
         # 檢查是否在 keypoints1_dict 中有相同的像素
         if pt2 in keypoints1_dict:
-            kp1 = keypoints1_dict[pt2]
+            # kp1 = keypoints1_dict[pt2]
             same_keypoints.append((kp2))
-            
+    
+    # 若兩張圖同個pixel都有檢測到keypoints，則繪製線段
     for kp in same_keypoints:
         x1, y1 = kp.pt
         x2, y2 = kp.pt
@@ -133,13 +123,36 @@ if __name__ == '__main__':
     # cv2.line透明度設定，ref:https://gist.github.com/IAmSuyogJadhav/305bfd9a0605a4c096383408bee7fd5c
     alpha = 0.3  # Transparency factor.
     # Following line overlays transparent rectangle over the image
-    image_new = cv2.addWeighted(overlay, alpha, combined_img, 1 - alpha, 0)
-            
-    print('Matched points:', len(same_keypoints))
-    # 顯示合成的圖像
-    cv2.imshow('Combined Image', image_new)
-    cv2.imshow('Image with Keypoints1', img_with_keypoints1)
-    cv2.imshow('Image with Keypoints2', img_with_keypoints2)
+    comparison_img = cv2.addWeighted(overlay, alpha, combined_img, 1 - alpha, 0)
+    
+    # return data
+    result_img = [img_with_keypoints1, img_with_keypoints2, comparison_img]
+    matched_points = len(same_keypoints)
+    keypoint_data = [keypoint_num1, keypoint_num2, matched_points]
+    
+    return result_img, keypoint_data
 
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+# if __name__ == '__main__':
+#     img_path1 = './img/testImg.png'
+#     img_path2 = './img/brightFix60.png'
+#     result_img, keypoint_data = improved_orb_comparison(img_path1, img_path2)
+    
+#     # print data
+#     print("----------")
+#     print("Image 1:")
+#     print("img_path1:" + img_path1[6:])
+#     print("keypoint_num1:" + str(keypoint_data[0])) # 圖1的檢測到的特徵點數量
+#     print(".")
+#     print("Image 2:")
+#     print("img_path2:" + img_path2[6:])
+#     print("keypoint_num2:" + str(keypoint_data[1])) # 圖2的檢測到的特徵點數量
+#     print(".")
+#     print("matched_points:" + str(keypoint_data[2])) # 檢測到的相同特徵點數量
+#     print("matched accuracy:" + str(round(keypoint_data[2]/keypoint_data[0]*100, 2)) + " %") # matched accuracy，圖2上檢測到幾%符合圖1的特徵點
+#     print("----------")
+    
+#     cv2.imshow('Image with Keypoints1', result_img[0])
+#     cv2.imshow('Image with Keypoints2', result_img[1])
+#     cv2.imshow('Comparison Image', result_img[2])
+#     cv2.waitKey(0)
+#     cv2.destroyAllWindows()
