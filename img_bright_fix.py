@@ -1,7 +1,7 @@
 import cv2
 
 # 讀取圖像
-def img_brightness_fix(img_path, brightness_fix = 60, write = False):
+def brightness_fix_to_img(img_path, brightness_fix = 60, write = False):
     img = cv2.imread(img_path)
 
     # 將亮度調整值轉換為亮度比例
@@ -17,7 +17,7 @@ def img_brightness_fix(img_path, brightness_fix = 60, write = False):
 
 # if __name__ == '__main__':
 #     img_path = './img/testImg.png'
-#     fixed_img = img_brightness_fix(img_path, brightness_fix = 90, write = True)
+#     fixed_img = brightness_fix_to_img(img_path, brightness_fix = 90, write = True)
 #     # 顯示調整後的圖像
 #     cv2.imshow('Origin Image', cv2.imread(img_path))
 #     cv2.imshow('Brightness Adjusted Image', fixed_img)
