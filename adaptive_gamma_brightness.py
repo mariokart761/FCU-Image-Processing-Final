@@ -75,14 +75,11 @@ def modify_image_grayscale(image, gamma, beta=0.3):
     
     return bright_fix_img
 
-def adaptive_brightness_fix(image_path):
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    isBright = calculate_is_bright(image)
-    
-    if(isBright):
+def adaptive_brightness_fix_to_img(img):
+    if(calculate_is_bright(img)):
         # 因為算法一定會讓圖像變白(圖像加法)，所以若平均灰度值>128時先做負片，再做亮度校正，最後再負片一次轉回來
         # 第一次負片
-        temp_image = nagative_image(image)
+        temp_image = nagative_image(img)
         
         probabilities = calculate_grayscale_probabilities(temp_image)
         weighted_probabilities = apply_weighted_probabilities(probabilities)
@@ -92,25 +89,25 @@ def adaptive_brightness_fix(image_path):
         # 再做一次負片，以達到使高亮度圖像變暗的結果
         bright_fix_img = nagative_image(bright_fix_img)
     else:
-        probabilities = calculate_grayscale_probabilities(image)
+        probabilities = calculate_grayscale_probabilities(img)
         weighted_probabilities = apply_weighted_probabilities(probabilities)
         gamma = calculate_gamma(weighted_probabilities)
-        bright_fix_img = modify_image_grayscale(image, gamma)
+        bright_fix_img = modify_image_grayscale(img, gamma)
         
     return bright_fix_img
 
 # if __name__ == '__main__':
 #     image_path = './img/testImg.png'
-    
-#     _bright_fix_img = adaptive_brightness_fix(image_path)
-#     _image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-#     _isBright = calculate_is_bright(_image)
+#     # image_path = './img/brightFix90.png'
+#     _img = cv2.imread(image_path, 0)
+#     _bright_fix_img = adaptive_brightness_fix_to_img(_img)
+#     _isBright = calculate_is_bright(_img)
     
 #     print('isBright:' +  f'{_isBright}')
-#     print("原圖的平均灰度值:" + str(np.mean(_image)))
+#     print("原圖的平均灰度值:" + str(np.mean(_img)))
 #     print("校正後平均灰度值:" + str(np.mean(_bright_fix_img)))
     
-#     cv2.imshow('Origin Image', _image)
+#     cv2.imshow('Origin Image', _img)
 #     cv2.imshow('Modified Image', _bright_fix_img)
 #     cv2.waitKey(0)
 #     cv2.destroyAllWindows()

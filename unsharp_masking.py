@@ -1,7 +1,6 @@
 import cv2
 
-def unsharp_mask_to_img(img_path, kernel_size = 3, sigma = 0, scale = 1):
-    img = cv2.imread(img_path)
+def unsharp_mask_to_img(img, kernel_size = 3, sigma = 0, scale = 1):
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     # 對圖像進行高斯濾波
@@ -17,8 +16,8 @@ def unsharp_mask_to_img(img_path, kernel_size = 3, sigma = 0, scale = 1):
 
 # if __name__ == '__main__':
 #     img_path = './img/testImg.png'
-#     sharpen_img, mask = unsharp_mask_to_img(img_path)
-    
+#     img = cv2.imread(img_path)
+#     sharpen_img, mask = unsharp_mask_to_img(img)
 #     cv2.imshow('Original Image', cv2.imread(img_path))
 #     cv2.imshow('Unsharp Masking Image', sharpen_img)
 #     cv2.imshow('Mask', mask)

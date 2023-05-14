@@ -1,9 +1,7 @@
 import cv2
 import numpy as np
 
-def origin_orb_detection(img_path, max_feature=30000, fastThreshold=20):
-    img = cv2.imread(img_path, 0)
-
+def origin_orb_detection(img, max_feature=30000, fastThreshold=20):
     # 初始化ORB偵測器
     orb = cv2.ORB_create(edgeThreshold=0)
 
@@ -20,11 +18,11 @@ def origin_orb_detection(img_path, max_feature=30000, fastThreshold=20):
     
     return img_with_keypoints, keypoints, keypoint_num
 
-def improved_orb_comparison(img_path1, img_path2):
-    img_with_keypoints1, full_keypoints1, keypoint_num1 = origin_orb_detection(img_path1)
-    img_with_keypoints2, full_keypoints2, keypoint_num2 = origin_orb_detection(img_path2)
+def origin_orb_comparison(img1, img2):
+    img_with_keypoints1, full_keypoints1, keypoint_num1 = origin_orb_detection(img1)
+    img_with_keypoints2, full_keypoints2, keypoint_num2 = origin_orb_detection(img2)
     
-    h, w, _ = cv2.imread(img_path1).shape
+    h, w = img1.shape
     combined_img = np.zeros((h, w*2, 3), dtype=np.uint8)
     combined_img[:, :w] = img_with_keypoints1
     combined_img[:, w:] = img_with_keypoints2
@@ -69,7 +67,9 @@ def improved_orb_comparison(img_path1, img_path2):
 # if __name__ == '__main__':
 #     img_path1 = './img/testImg.png'
 #     img_path2 = './img/brightFix60.png'
-#     result_img, keypoint_data = improved_orb_comparison(img_path1, img_path2)
+#     _img1 = cv2.imread(img_path1, 0)
+#     _img2 = cv2.imread(img_path2, 0)
+#     result_img, keypoint_data = origin_orb_comparison(_img1, _img2)
     
 #     # print data
 #     print("----------")
