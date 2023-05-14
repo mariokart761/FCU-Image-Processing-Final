@@ -87,7 +87,7 @@ def improved_orb_comparison(img1, img2):
     img_with_keypoints1, full_keypoints1, keypoint_num1 = improved_orb_detection(img1)
     img_with_keypoints2, full_keypoints2, keypoint_num2 = improved_orb_detection(img2)
     
-    h, w = img1.shape
+    h, w = img1.shape[:2]
     combined_img = np.zeros((h, w*2, 3), dtype=np.uint8)
     combined_img[:, :w] = img_with_keypoints1
     combined_img[:, w:] = img_with_keypoints2
