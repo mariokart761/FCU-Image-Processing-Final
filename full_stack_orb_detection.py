@@ -113,7 +113,7 @@ class OrbProcessor:
                 print("[INFO] 讀取圖像時發生其它異常\n" + e)
         else:
             # 路徑不存在
-            raise FileNotFoundError("[INFO] 找不到指定路徑: " +  + self.img_path)
+            raise FileNotFoundError("[INFO] 找不到指定路徑: " + self.img_path)
         
         return
     
