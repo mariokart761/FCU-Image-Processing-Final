@@ -1,9 +1,12 @@
 import cv2
 import numpy as np
+import time
 
 def origin_orb_detection(img, max_feature=30000, fastThreshold=20):
     # 初始化ORB偵測器
     orb = cv2.ORB_create(edgeThreshold=0)
+
+    start_time = time.time() # detection timer start
 
     # 調整ORB特徵點偵測參數
     orb.setMaxFeatures(max_feature)
@@ -11,16 +14,20 @@ def origin_orb_detection(img, max_feature=30000, fastThreshold=20):
 
     # 初始化與原圖size相等的空白圖像
     img_with_keypoints = np.zeros_like(img)
-    
+
     keypoints = orb.detect(img, None)
+    end_time = time.time() # detection timer end
+
+    # return data
     img_with_keypoints = cv2.drawKeypoints(img, keypoints, None, flags=0)
     keypoint_num = len(keypoints)
+    detect_time = round(end_time - start_time, 3)
     
-    return img_with_keypoints, keypoints, keypoint_num
+    return img_with_keypoints, keypoints, keypoint_num, detect_time
 
 def origin_orb_comparison(img1, img2):
-    img_with_keypoints1, full_keypoints1, keypoint_num1 = origin_orb_detection(img1)
-    img_with_keypoints2, full_keypoints2, keypoint_num2 = origin_orb_detection(img2)
+    img_with_keypoints1, full_keypoints1, keypoint_num1, t0 = origin_orb_detection(img1)
+    img_with_keypoints2, full_keypoints2, keypoint_num2, t1 = origin_orb_detection(img2)
     
     h, w = img1.shape[:2]
     combined_img = np.zeros((h, w*2, 3), dtype=np.uint8)
@@ -28,6 +35,8 @@ def origin_orb_comparison(img1, img2):
     combined_img[:, w:] = img_with_keypoints2
     overlay = combined_img.copy()
     same_keypoints = []
+
+    start_time = time.time() # comparison timer start
 
     # 建立 keypoints1 中每個特徵點的像素作為key，特徵點本身作為value的dict
     keypoints1_dict = {tuple(map(int, kp.pt)): kp for kp in full_keypoints1}
@@ -42,6 +51,8 @@ def origin_orb_comparison(img1, img2):
             # kp1 = keypoints1_dict[pt2]
             same_keypoints.append((kp2))
     
+    end_time = time.time() # comparison timer end
+
     # 若兩張圖同個pixel都有檢測到keypoints，則繪製線段
     for kp in same_keypoints:
         x1, y1 = kp.pt
@@ -61,32 +72,37 @@ def origin_orb_comparison(img1, img2):
     result_img = [img_with_keypoints1, img_with_keypoints2, comparison_img]
     matched_points = len(same_keypoints)
     keypoint_data = [keypoint_num1, keypoint_num2, matched_points]
-    
-    return result_img, keypoint_data
+    comparison_time = round(end_time - start_time, 3) # 比對所花時間
+    used_time = [t0, t1, comparison_time] # 偵測時間1, 偵測時間2, 比對時間
 
-if __name__ == '__main__':
-    img_path1 = './img/testImg.png'
-    img_path2 = './img/brightFix-60.png'
-    _img1 = cv2.imread(img_path1, 0)
-    _img2 = cv2.imread(img_path2, 0)
-    result_img, keypoint_data = origin_orb_comparison(_img1, _img2)
+    return result_img, keypoint_data, used_time
+
+# if __name__ == '__main__':
+#     img_path1 = './img/testImg.png'
+#     img_path2 = './img/brightFix-60.png'
+#     _img1 = cv2.imread(img_path1, 0)
+#     _img2 = cv2.imread(img_path2, 0)
+#     result_img, keypoint_data, used_time = origin_orb_comparison(_img1, _img2)
     
-    # print data
-    print("----------")
-    print("Image 1:")
-    print("img_path1:" + img_path1[6:])
-    print("keypoint_num1:" + str(keypoint_data[0])) # 圖1的檢測到的特徵點數量
-    print(".")
-    print("Image 2:")
-    print("img_path2:" + img_path2[6:])
-    print("keypoint_num2:" + str(keypoint_data[1])) # 圖2的檢測到的特徵點數量
-    print(".")
-    print("matched_points:" + str(keypoint_data[2])) # 檢測到的相同特徵點數量
-    print("matched accuracy:" + str(round(keypoint_data[2]/keypoint_data[0]*100, 2)) + " %") # matched accuracy，圖2上檢測到幾%符合圖1的特徵點
-    print("----------")
+#     # print data
+#     print("----------")
+#     print("Image 1:")
+#     print("img_path1:" + img_path1[6:])
+#     print("keypoint_num1:" + str(keypoint_data[0])) # 圖1的檢測到的特徵點數量
+#     print("detect_time1:" + str(used_time[0]) + " s")
+#     print(".")
+#     print("Image 2:")
+#     print("img_path2:" + img_path2[6:])
+#     print("keypoint_num2:" + str(keypoint_data[1])) # 圖2的檢測到的特徵點數量
+#     print("detect_time2:" + str(used_time[1]) + " s")
+#     print(".")
+#     print("matched_points:" + str(keypoint_data[2])) # 檢測到的相同特徵點數量
+#     print("matched accuracy:" + str(round(keypoint_data[2]/keypoint_data[0]*100, 2)) + " %") # matched accuracy，圖2上檢測到幾%符合圖1的特徵點
+#     print("match time:" + str(used_time[2]) + " s")
+#     print("----------")
     
-    cv2.imshow('Image with Keypoints1', result_img[0])
-    cv2.imshow('Image with Keypoints2', result_img[1])
-    cv2.imshow('Comparison Image', result_img[2])
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+#     cv2.imshow('Image with Keypoints1', result_img[0])
+#     cv2.imshow('Image with Keypoints2', result_img[1])
+#     cv2.imshow('Comparison Image', result_img[2])
+#     cv2.waitKey(0)
+#     cv2.destroyAllWindows()
