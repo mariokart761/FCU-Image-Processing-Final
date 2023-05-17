@@ -26,6 +26,7 @@ def origin_orb_detection(img, max_feature=30000, fastThreshold=20):
     return img_with_keypoints, keypoints, keypoint_num, detect_time
 
 def origin_orb_comparison(img1, img2):
+    origin_orb_detection(img1)
     img_with_keypoints1, full_keypoints1, keypoint_num1, t0 = origin_orb_detection(img1)
     img_with_keypoints2, full_keypoints2, keypoint_num2, t1 = origin_orb_detection(img2)
     
@@ -77,6 +78,16 @@ def origin_orb_comparison(img1, img2):
 
     return result_img, keypoint_data, used_time
 
+# 先配置一張有特徵點的圖像並call函式improved_orb_detection，否則第一次執行OS未放入快取導致時間不準
+def _first_call():
+    _white_image = np.ones((200, 200, 1), dtype=np.uint8) * 255
+    _black_image = np.zeros((100, 100, 1), dtype=np.uint8)
+    _rows, _cols = _black_image.shape[:2]
+    _roi = _white_image[-_rows:, -_cols:]
+    _roi[:] = _black_image
+    origin_orb_detection(_white_image)
+_first_call()
+
 # if __name__ == '__main__':
 #     img_path1 = './img/testImg.png'
 #     img_path2 = './img/brightFix-60.png'
@@ -101,8 +112,8 @@ def origin_orb_comparison(img1, img2):
 #     print("match time:" + str(used_time[2]) + " s")
 #     print("----------")
     
-#     cv2.imshow('Image with Keypoints1', result_img[0])
-#     cv2.imshow('Image with Keypoints2', result_img[1])
-#     cv2.imshow('Comparison Image', result_img[2])
-#     cv2.waitKey(0)
-#     cv2.destroyAllWindows()
+#     # cv2.imshow('Image with Keypoints1', result_img[0])
+#     # cv2.imshow('Image with Keypoints2', result_img[1])
+#     # cv2.imshow('Comparison Image', result_img[2])
+#     # cv2.waitKey(0)
+#     # cv2.destroyAllWindows()

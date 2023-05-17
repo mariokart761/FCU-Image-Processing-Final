@@ -134,12 +134,12 @@ class OrbProcessor:
         # 特徵點檢測環節
         # 使用自適應閾值檢測特徵點
         if(self.statusAdaptiveThreshold == True):
-            result_img, keypoints, keypoint_num = improved_orb.improved_orb_detection(_img)
+            result_img, keypoints, keypoint_num, detect_time = improved_orb.improved_orb_detection(_img)
         # 使用固定閾值檢測特徵點
         elif(self.statusAdaptiveThreshold == False):
-            result_img, keypoints, keypoint_num = origin_orb.origin_orb_detection(_img)
+            result_img, keypoints, keypoint_num, detect_time = origin_orb.origin_orb_detection(_img)
         
-        return result_img, keypoint_num
+        return result_img, keypoint_num, detect_time
     
     def compareToDefault(self):
         # 左圖顯示未經圖像增強的結果，右圖顯示依照Setting進行圖像增強的結果
@@ -159,12 +159,12 @@ class OrbProcessor:
         # 特徵點檢測環節
         # 使用自適應閾值檢測特徵點
         if(self.statusAdaptiveThreshold == True):
-            result_img, keypoint_data = improved_orb.improved_orb_comparison(_img1, _img2)
+            result_img, keypoint_data, used_time = improved_orb.improved_orb_comparison(_img1, _img2)
         # 使用固定閾值檢測特徵點
         elif(self.statusAdaptiveThreshold == False):
-            result_img, keypoint_data = origin_orb.origin_orb_comparison(_img1, _img2)
+            result_img, keypoint_data, used_time = origin_orb.origin_orb_comparison(_img1, _img2)
         
-        return result_img, keypoint_data
+        return result_img, keypoint_data, used_time
     
     def compareToDiffBrightness(self, brightness_adj = 60):
         # 左圖依照Setting變動的算法結果，右圖顯示依照Setting變動的算法套用在不同亮度的結果
@@ -192,71 +192,78 @@ class OrbProcessor:
         # 特徵點檢測環節
         # 使用自適應閾值檢測特徵點
         if(self.statusAdaptiveThreshold == True):
-            result_img, keypoint_data = improved_orb.improved_orb_comparison(_img1, _img2)
+            result_img, keypoint_data, used_time = improved_orb.improved_orb_comparison(_img1, _img2)
         # 使用固定閾值檢測特徵點
         elif(self.statusAdaptiveThreshold == False):
-            result_img, keypoint_data = origin_orb.origin_orb_comparison(_img1, _img2)
+            result_img, keypoint_data, used_time = origin_orb.origin_orb_comparison(_img1, _img2)
         
-        return result_img, keypoint_data
+        return result_img, keypoint_data, used_time
         
 
-if __name__ == "__main__":
-    # orbProcessor setting data
-    filepath = './img/testImg.png'
-    statusGaussianFilter = False
-    statusBrightnessFixMethod = "Clahe"
-    statusSharpen = True
-    statusAdaptiveThreshold = True
+# if __name__ == "__main__":
+#     # orbProcessor setting data
+#     filepath = './img/testImg.png'
+#     statusGaussianFilter = False
+#     statusBrightnessFixMethod = "Clahe"
+#     statusSharpen = True
+#     statusAdaptiveThreshold = True
     
-    # set orbProcessor
-    orbProcessor = OrbProcessor()
-    orbProcessor.img_path = filepath
-    orbProcessor.statusGaussianFilter = statusGaussianFilter
-    orbProcessor.statusBrightnessFixMethod = statusBrightnessFixMethod
-    orbProcessor.statusSharpen = statusSharpen
-    orbProcessor.statusAdaptiveThreshold = statusAdaptiveThreshold
+#     # set orbProcessor
+#     orbProcessor = OrbProcessor()
+#     orbProcessor.img_path = filepath
+#     orbProcessor.statusGaussianFilter = statusGaussianFilter
+#     orbProcessor.statusBrightnessFixMethod = statusBrightnessFixMethod
+#     orbProcessor.statusSharpen = statusSharpen
+#     orbProcessor.statusAdaptiveThreshold = statusAdaptiveThreshold
     
-    # 顯示 orbProcessor setting
-    print("----------")
-    print("img_path : " + orbProcessor.img_path)
-    print("statusGaussianFilter : " + str(orbProcessor.statusGaussianFilter))
-    print("statusBrightnessFixMethod : "+ str(orbProcessor.statusBrightnessFixMethod))
-    print("statusSharpen : "+ str(orbProcessor.statusSharpen))
-    print("statusAdaptiveThreshold : "+ str(orbProcessor.statusAdaptiveThreshold))
+#     # 顯示 orbProcessor setting
+#     print("----------")
+#     print("img_path : " + orbProcessor.img_path)
+#     print("statusGaussianFilter : " + str(orbProcessor.statusGaussianFilter))
+#     print("statusBrightnessFixMethod : "+ str(orbProcessor.statusBrightnessFixMethod))
+#     print("statusSharpen : "+ str(orbProcessor.statusSharpen))
+#     print("statusAdaptiveThreshold : "+ str(orbProcessor.statusAdaptiveThreshold))
     
-    # check result - detectOrbFeature
-    result_img1, keypoint_num = orbProcessor.detectOrbFeature()
-    print("----------")
-    print("detectOrbFeature:")
-    print("Keypoint counts: " + str(keypoint_num))
+#     # check result - detectOrbFeature
+#     result_img1, keypoint_num, detect_time = orbProcessor.detectOrbFeature()
+#     print("----------")
+#     print("detectOrbFeature:")
+#     print("Keypoint counts: " + str(keypoint_num))
+#     print("Detect time:" + str(detect_time) + "s")
     
-    # check result - compareToDefault
-    result_img2, keypoint_data2 = orbProcessor.compareToDefault()
-    print("----------")
-    print("compareToDefault:")
-    print("Keypoint counts 1 : " + str(keypoint_data2[0])) # 左圖的檢測到的特徵點數量
-    print("Keypoint counts 2 : " + str(keypoint_data2[1])) # 右圖的檢測到的特徵點數量
-    print("Matched points : " + str(keypoint_data2[2])) # 檢測到的相同特徵點數量
-    print("Matched accuracy : " + str(round(keypoint_data2[2]/keypoint_data2[0]*100, 2)) + " %") # 右圖上檢測到幾%符合左圖的特徵點
+#     # check result - compareToDefault
+#     result_img2, keypoint_data2, used_time2 = orbProcessor.compareToDefault()
+#     print("----------")
+#     print("compareToDefault:")
+#     print("Keypoint counts 1 : " + str(keypoint_data2[0])) # 左圖的檢測到的特徵點數量
+#     print("Detect time 1 : " + str(used_time2[0]) + " s")
+#     print("Keypoint counts 2 : " + str(keypoint_data2[1])) # 右圖的檢測到的特徵點數量
+#     print("Detect time 2 : " + str(used_time2[1]) + " s")
+#     print("Matching points : " + str(keypoint_data2[2])) # 檢測到的相同特徵點數量
+#     print("Matching accuracy : " + str(round(keypoint_data2[2]/keypoint_data2[0]*100, 2)) + " %") # 右圖上檢測到幾%符合左圖的特徵點
+#     print("Matching time : " + str(used_time2[2]) + " s")
     
-    # check result - compareToDiffBrightness
-    adj = -60
-    result_img3, keypoint_data3 = orbProcessor.compareToDiffBrightness(brightness_adj = adj)
-    print("----------")
-    print("compareToDiffBrightness:")
-    print("Keypoint counts 1 : " + str(keypoint_data3[0])) # 左圖的檢測到的特徵點數量
-    print("Keypoint counts 2 : " + str(keypoint_data3[1])) # 右圖的檢測到的特徵點數量
-    print("Matched points : " + str(keypoint_data3[2])) # 檢測到的相同特徵點數量
-    print("Matched accuracy : " + str(round(keypoint_data3[2]/keypoint_data3[0]*100, 2)) + " %") # 右圖上檢測到幾%符合左圖的特徵點
-    print("----------")
+#     # check result - compareToDiffBrightness
+#     adj = -60
+#     result_img3, keypoint_data3, used_time3 = orbProcessor.compareToDiffBrightness(brightness_adj = adj)
+#     print("----------")
+#     print("compareToDiffBrightness:")
+#     print("Keypoint counts 1 : " + str(keypoint_data3[0])) # 左圖的檢測到的特徵點數量
+#     print("Detect time 1 : " + str(used_time3[0]) + " s")
+#     print("Keypoint counts 2 : " + str(keypoint_data3[1])) # 右圖的檢測到的特徵點數量
+#     print("Detect time 2 : " + str(used_time3[1]) + " s")
+#     print("Matching points : " + str(keypoint_data3[2])) # 檢測到的相同特徵點數量
+#     print("Matching accuracy : " + str(round(keypoint_data3[2]/keypoint_data3[0]*100, 2)) + " %") # 右圖上檢測到幾%符合左圖的特徵點
+#     print("Matching time : " + str(used_time3[2]) + " s")
+#     print("----------")
     
-    # cv2.imshow("Result - detectOrbFeature", result_img1)
-    # cv2.imshow("Result - compareToDefault left", result_img2[0])
-    # cv2.imshow("Result - compareToDefault right", result_img2[1])
-    # cv2.imshow("Result - compareToDefault mix", result_img2[2])
-    # cv2.imshow("Result - compareToDiffBrightness left", result_img3[0])
-    # cv2.imshow("Result - compareToDiffBrightness right", result_img3[1])
-    # cv2.imshow("Result - compareToDiffBrightness mix", result_img3[2])
+#     # cv2.imshow("Result - detectOrbFeature", result_img1)
+#     # cv2.imshow("Result - compareToDefault left", result_img2[0])
+#     # cv2.imshow("Result - compareToDefault right", result_img2[1])
+#     # cv2.imshow("Result - compareToDefault mix", result_img2[2])
+#     # cv2.imshow("Result - compareToDiffBrightness left", result_img3[0])
+#     # cv2.imshow("Result - compareToDiffBrightness right", result_img3[1])
+#     # cv2.imshow("Result - compareToDiffBrightness mix", result_img3[2])
     
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+#     # cv2.waitKey(0)
+#     # cv2.destroyAllWindows()
