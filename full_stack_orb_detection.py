@@ -198,23 +198,31 @@ class OrbProcessor:
             result_img, keypoint_data, used_time = origin_orb.origin_orb_comparison(_img1, _img2)
         
         return result_img, keypoint_data, used_time
-        
 
-# if __name__ == "__main__":
-#     # orbProcessor setting data
-#     filepath = './img/testImg.png'
-#     statusGaussianFilter = False
-#     statusBrightnessFixMethod = "Clahe"
-#     statusSharpen = True
-#     statusAdaptiveThreshold = True
+    def setORBProcessor(self, setting_data):
+        self.img_path = setting_data["img_path"]
+        self.statusGaussianFilter = setting_data["statusGaussianFilter"]
+        self.statusBrightnessFixMethod = setting_data["statusBrightnessFixMethod"]
+        self.statusSharpen = setting_data["statusSharpen"]
+        self.statusAdaptiveThreshold = setting_data["statusAdaptiveThreshold"]
     
-#     # set orbProcessor
-#     orbProcessor = OrbProcessor()
-#     orbProcessor.img_path = filepath
-#     orbProcessor.statusGaussianFilter = statusGaussianFilter
-#     orbProcessor.statusBrightnessFixMethod = statusBrightnessFixMethod
-#     orbProcessor.statusSharpen = statusSharpen
-#     orbProcessor.statusAdaptiveThreshold = statusAdaptiveThreshold
+    
+
+if __name__ == "__main__":
+    # orbProcessor setting data
+    filepath = './img/testImg.png'
+    statusGaussianFilter = False
+    statusBrightnessFixMethod = "Clahe"
+    statusSharpen = True
+    statusAdaptiveThreshold = True
+    
+    # set orbProcessor
+    orbProcessor = OrbProcessor()
+    orbProcessor.img_path = filepath
+    orbProcessor.statusGaussianFilter = statusGaussianFilter
+    orbProcessor.statusBrightnessFixMethod = statusBrightnessFixMethod
+    orbProcessor.statusSharpen = statusSharpen
+    orbProcessor.statusAdaptiveThreshold = statusAdaptiveThreshold
     
 #     # 顯示 orbProcessor setting
 #     print("----------")

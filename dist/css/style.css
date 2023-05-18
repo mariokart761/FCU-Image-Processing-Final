@@ -1,0 +1,20 @@
+body {
+  background-color: rgb(30, 35, 40);
+  overflow-x: hidden;
+}
+.preview-img-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 80%;
+  height: 50%;
+  max-width: 600px;
+  position: relative;
+}
+.preview-img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
