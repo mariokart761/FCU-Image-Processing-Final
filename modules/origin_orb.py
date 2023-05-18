@@ -26,7 +26,6 @@ def origin_orb_detection(img, max_feature=30000, fastThreshold=20):
     return img_with_keypoints, keypoints, keypoint_num, detect_time
 
 def origin_orb_comparison(img1, img2):
-    origin_orb_detection(img1)
     img_with_keypoints1, full_keypoints1, keypoint_num1, t0 = origin_orb_detection(img1)
     img_with_keypoints2, full_keypoints2, keypoint_num2, t1 = origin_orb_detection(img2)
     

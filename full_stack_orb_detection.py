@@ -30,27 +30,27 @@ from modules.img_bright_fix import brightness_fix_to_img
 
 class OrbProcessor:
     def __init__(self, 
-                 img_path = "Not defined.", 
+                 img_content = "Not defined.", 
                  statusAdaptiveThreshold = False, 
                  statusBrightnessFixMethod = "None", 
                  statusGaussianFilter = False, 
                  statusSharpen = False):
-        self._img_path = img_path
+        self._img_content = img_content
         self._statusAdaptiveThreshold = statusAdaptiveThreshold
         self._statusBrightnessFixMethod = statusBrightnessFixMethod
         self._statusGaussianFilter = statusGaussianFilter
         self._statusSharpen = statusSharpen
     
     @property
-    def img_path(self):
-        return self._img_path
+    def img_content(self):
+        return self._img_content
     
-    @img_path.setter
-    def img_path(self, value):
-        if(type(value) == str):
-            self._img_path = value
+    @img_content.setter
+    def img_content(self, value):
+        if(type(value) == np.ndarray):
+            self._img_content = value
         else:
-            raise ValueError("[INFO] img_path type 必須為 str")
+            raise ValueError("[INFO] img_content type 必須為 np.ndarray")
     
     @property
     def statusAdaptiveThreshold(self):
@@ -96,31 +96,42 @@ class OrbProcessor:
         else:
             raise ValueError("[INFO] statusSharpen的值必須為 True 或 False ")
     
-    # 檢查file path是否合法
-    def checkImagePath(self):
-        if(os.path.exists(self.img_path) == True):
-            # 路徑存在
-            try:
-                _img = cv2.imread(self.img_path)
-                if _img is not None:
-                    # print("[INFO] 成功讀取圖像: " + self.img_path)
-                    return
-                else:
-                    print("[INFO] 非有效圖像: " + self.img_path)
-                    return
-            except Exception as e:
-                # 發生其他異常
-                print("[INFO] 讀取圖像時發生其它異常\n" + e)
-        else:
-            # 路徑不存在
-            raise FileNotFoundError("[INFO] 找不到指定路徑: " + self.img_path)
+    # function間由傳path改成直接傳圖像資料，所以不需要以下驗證了
+    # # 檢查file path是否合法
+    # def checkImagePath(self):
+    #     if(os.path.exists(self.img_content) == True):
+    #         # 路徑存在
+    #         try:
+    #             _img = cv2.imread(self.img_content)
+    #             if _img is not None:
+    #                 # print("[INFO] 成功讀取圖像: " + self.img_content)
+    #                 return
+    #             else:
+    #                 print("[INFO] 非有效圖像: " + self.img_content)
+    #                 return
+    #         except Exception as e:
+    #             # 發生其他異常
+    #             print("[INFO] 讀取圖像時發生其它異常\n" + e)
+    #     else:
+    #         # 路徑不存在
+    #         raise FileNotFoundError("[INFO] 找不到指定路徑: " + self.img_content)
         
-        return
+    #     return
+    
+    def imgToGray(self):
+        try:
+            _img = self.img_content
+            if len(_img.shape) == 3:
+                gray_img = cv2.cvtColor(_img, cv2.COLOR_BGR2GRAY)
+            return gray_img
+        except Exception as e:
+            print("[INFO] 圖像轉灰階發生異常 : " + str(e))
+            return None
+
     
     # 依照status setting進行單圖像特徵點檢測
     def detectOrbFeature(self):
-        self.checkImagePath()
-        _img = cv2.imread(self.img_path, 0)
+        _img = self.imgToGray()
         
         # 圖像增強環節
         # 高斯濾波
@@ -130,7 +141,6 @@ class OrbProcessor:
         elif(self.statusBrightnessFixMethod == "Adaptive_Gamma") : _img = gammaFix.adaptive_brightness_fix_to_img(_img)
         # unsharp masking
         if(self.statusSharpen == True): _img, mask  = unsharp_mask_to_img(_img)
-        
         # 特徵點檢測環節
         # 使用自適應閾值檢測特徵點
         if(self.statusAdaptiveThreshold == True):
@@ -143,9 +153,8 @@ class OrbProcessor:
     
     def compareToDefault(self):
         # 左圖顯示未經圖像增強的結果，右圖顯示依照Setting進行圖像增強的結果
-        self.checkImagePath()
-        _img1 = cv2.imread(self.img_path, 0)
-        _img2 = cv2.imread(self.img_path, 0)
+        _img1 = self.imgToGray()
+        _img2 = self.imgToGray()
         
         # 圖像增強環節
         # 高斯濾波
@@ -168,8 +177,7 @@ class OrbProcessor:
     
     def compareToDiffBrightness(self, brightness_adj = 60):
         # 左圖依照Setting變動的算法結果，右圖顯示依照Setting變動的算法套用在不同亮度的結果
-        self.checkImagePath()
-        _img1 = cv2.imread(self.img_path, 0)
+        _img1 = self.imgToGray()
         _img2 = brightness_fix_to_img(_img1, brightness_fix = brightness_adj)
         
         # 圖像增強環節
@@ -199,8 +207,9 @@ class OrbProcessor:
         
         return result_img, keypoint_data, used_time
 
+    
     def setORBProcessor(self, setting_data):
-        self.img_path = setting_data["img_path"]
+        self.img_content = setting_data["img_content"]
         self.statusGaussianFilter = setting_data["statusGaussianFilter"]
         self.statusBrightnessFixMethod = setting_data["statusBrightnessFixMethod"]
         self.statusSharpen = setting_data["statusSharpen"]
@@ -208,25 +217,26 @@ class OrbProcessor:
     
     
 
-if __name__ == "__main__":
-    # orbProcessor setting data
-    filepath = './img/testImg.png'
-    statusGaussianFilter = False
-    statusBrightnessFixMethod = "Clahe"
-    statusSharpen = True
-    statusAdaptiveThreshold = True
+# if __name__ == "__main__":
+#     # orbProcessor setting data
+#     filepath = './img/testImg.png'
+#     image_content = cv2.imread(filepath)
+#     statusGaussianFilter = True
+#     statusBrightnessFixMethod = "Adaptive_Gamma"
+#     statusSharpen = True
+#     statusAdaptiveThreshold = True
     
-    # set orbProcessor
-    orbProcessor = OrbProcessor()
-    orbProcessor.img_path = filepath
-    orbProcessor.statusGaussianFilter = statusGaussianFilter
-    orbProcessor.statusBrightnessFixMethod = statusBrightnessFixMethod
-    orbProcessor.statusSharpen = statusSharpen
-    orbProcessor.statusAdaptiveThreshold = statusAdaptiveThreshold
+#     # set orbProcessor
+#     orbProcessor = OrbProcessor()
+#     orbProcessor.img_content = image_content
+#     orbProcessor.statusGaussianFilter = statusGaussianFilter
+#     orbProcessor.statusBrightnessFixMethod = statusBrightnessFixMethod
+#     orbProcessor.statusSharpen = statusSharpen
+#     orbProcessor.statusAdaptiveThreshold = statusAdaptiveThreshold
     
 #     # 顯示 orbProcessor setting
 #     print("----------")
-#     print("img_path : " + orbProcessor.img_path)
+#     print("filepath : " + filepath)
 #     print("statusGaussianFilter : " + str(orbProcessor.statusGaussianFilter))
 #     print("statusBrightnessFixMethod : "+ str(orbProcessor.statusBrightnessFixMethod))
 #     print("statusSharpen : "+ str(orbProcessor.statusSharpen))
