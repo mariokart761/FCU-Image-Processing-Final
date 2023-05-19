@@ -25,98 +25,134 @@
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="/static/css/animate.css" />
     <link rel="stylesheet" href="/static/css/loader.css" />
     <link rel="stylesheet" href="/static/css/bootstrapFix.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
   </head>
 
   <body>
-    <div class="text-light animate__animated animate__fadeInDown">
-      <h1>ORB特徵點檢測分析</h1>
-      <img class="preview-img" src="" alt="" id="previewImage" />
-      <h3>Image Enhancing</h3>
-      
-      <div class="mb-3">
-        <input
-          class="form-control"
-          type="file"
-          id="formFile"
-          accept=".jpg,.png,"
-          onchange="handleImageFile(event)"
-        />
+    <div id="homePage" class="home-page text-light animate__animated animate__fadeInDown">
+      <div class="home-title">
+        <h1>ORB特徵點檢測算法分析</h1>
       </div>
 
-      <div class="form-check form-switch form-switch-md">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="gaussianFilter"
-          checked
-        />
-        <label class="form-check-label" for="gaussianFilter"
-          >Gaussian Filter : 高斯模糊(去圖像躁聲)</label
-        >
+      <div class="preview-img-container">
+        <img class="preview-img" src="" alt="" id="previewImage" />
       </div>
 
-      <select
-        class="form-select form-select-lg mb-3"
-        aria-label=".form-select-lg example"
-      >
-        <option selected>選擇亮度校正方法</option>
-        <option value="1">亮度校正：None</option>
-        <option value="2">亮度校正：Clahe</option>
-        <option value="3">
-          亮度校正：Adaptive Gamma Brightness correction
-        </option>
-      </select>
+      <div class="data-setting-container">
 
-      <div class="form-check form-switch form-switch-md">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="unsharpMasking"
-          checked
-        />
-        <label class="form-check-label" for="unsharpMasking"
-          >Unsharp masking (圖像銳化)</label
-        >
+        <h3>實驗設定</h3>
+        
+        <div class="image-input-container">
+          <input
+            class="form-control"
+            type="file"
+            id="imgFileInput"
+            accept=".jpg,.png"
+            placeholder="請選擇圖片檔案"
+            onchange="handleImageFile(event)"
+          />
+        </div>
+        <div class="gaussian-filter-select-container switcher-container">
+          <div class="form-check form-switch form-switch-md">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="gaussianFilter"
+              placeholder="高斯模糊"
+              checked
+            />
+            <label class="form-check-label" for="gaussianFilter"
+              >Gaussian Filter : 高斯模糊(去圖像躁聲)</label>
+          </div>
+        </div>
+        <div class="brightness-fix-method-select-container">
+          <select
+            class="form-select form-select-md"
+            aria-label="亮度校正方法"
+            id = "BrightnessFixMethodSelect"
+          >
+            <option selected value="0">選擇亮度校正方法</option>
+            <option value="1">亮度校正：None</option>
+            <option value="2">亮度校正：Clahe</option>
+            <option value="3">
+              亮度校正：Adaptive Gamma Brightness correction
+            </option>
+          </select>
+        </div>
+        <div class="unsharp-masking-select-container switcher-container">
+          <div class="form-check form-switch form-switch-md">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="unsharpMasking"
+              checked
+            />
+            <label class="form-check-label" for="unsharpMasking"
+              >Unsharp masking (圖像銳化)</label
+            >
+          </div>
+        </div>
+        <div class="adaptive-threshold-select-container switcher-container">
+          <div class="form-check form-switch form-switch-md">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="adaptiveThreshold"
+              checked
+            />
+            <label class="form-check-label" for="adaptiveThreshold"
+              >Adaptive Threshold (自適應閾值)</label
+            >
+          </div>
+        </div>
+        <div class="expirement-select-container">
+          <select
+            class="form-select form-select-md"
+            id = "experimentSelect"
+            aria-label="實驗方法"
+          >
+            <option value="0" selected>選擇要進行的實驗</option>
+            <option value="1">論文實驗1：相比原始算法提升了多少</option>
+            <option value="2">
+              論文實驗2：調整輸入圖像的亮度，並查看特徵點比對數據
+            </option>
+            <option value="3">自由實驗：單純的看單張效果</option>
+          </select>
+        </div>
+        <div id="brightAdj" class="bright-adj-container" style="visibility: hidden;">
+          <label for="customRange3" class="form-label">亮度調整 : </label>
+          <span class="slider-count" id="sliderCount"></span>
+          <label>
+            <input type="range" class="form-range" min="-90" max="90" step="10" id="brightAdjSlider" placeholder="選擇亮度">
+          </label>
+          </input>
+        </div>
+        <div class="start-button-container">
+          <button class="btn btn-primary btn-lg" id="sendButton" type="button">開始分析</button>
+        </div>
       </div>
 
-      <div class="form-check form-switch form-switch-md">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="adaptiveThreshold"
-          checked
-        />
-        <label class="form-check-label" for="adaptiveThreshold"
-          >Adaptive Threshold (自適應閾值)</label
-        >
-      </div>
-
-      <select
-        class="form-select form-select-lg mb-3"
-        aria-label=".form-select-lg example"
-      >
-        <option selected>選擇要進行的實驗</option>
-        <option value="1">論文實驗1：相比原始算法提升了多少</option>
-        <option value="2">
-          論文實驗2：調整輸入圖像的亮度，並查看特徵點比對數據
-        </option>
-        <option value="3">自由實驗：單純的看單張效果</option>
-      </select>
-      <button class="btn btn-primary" id="sendButton" type="button">開始</button>
     </div>
-    <div id="resultContainer"></div>
+
+    <div id=loadingPage class="loading-page text-light d-none">
+      <h1>Now Loading...</h1>
+      <img class="loading-img" src="https://cdn.discordapp.com/attachments/862518605433012268/1109140766024015934/Rick_Roll_Lossy.gif" alt="" id="loadingImage" />
+    </div>
+
+    <div id=resultPage class="result-page d-none">
+      <h1>Result</h1>
+      <div id="resultContainer"></div>
+
+      <div class="return-button-container">
+        <button class="btn btn-primary btn-lg" id="returnButton" type="button" onclick="returnToHome()">返回</button>
+      </div>
+    </div>
 
     <script src="/static/js/script.js"></script>
     <script src="/static/js/dataProcess.js"></script>

@@ -1,6 +1,11 @@
 class DataProcessor {
   constructor() {
     this._imageData = null;
+    this._statusGaussianFilter = true;
+    this._statusBrightnessFixMethod = true;
+    this._statusAdaptiveThreshold = true;
+    this._statusExperiment = true;
+    this._statusBrightAdj = 0;
   }
   // Getter
   get imageData() {
@@ -18,7 +23,7 @@ document
   .getElementById("sendButton")
   .addEventListener("click", async function () {
     try {
-
+      if(checkSettingInput()!=true) return;
       const data = new FormData();
       data.append('img_content', dataProcessor.imageData); 
       data.append('statusGaussianFilter', true);
@@ -36,15 +41,17 @@ document
         }
       });
 
+      
       console.log("response success!");
-
-      // 隱藏等待頁面
-      hideLoadingPage();
 
       var processedImageStr = response.data.processedImage;
       var processedImage = new Image();
       processedImage.src = "data:image/jpeg;base64," + processedImageStr;
       document.getElementById("resultContainer").appendChild(processedImage);
+      var keypointNum = response.data.keypointNum;
+      var detectTime = response.data.detectTime;
+      console.log(keypointNum)
+      console.log(detectTime)
 
       // 顯示結果頁面
       showResultPage();
