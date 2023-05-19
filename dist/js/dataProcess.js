@@ -19,6 +19,24 @@ class DataProcessor {
 }
 const dataProcessor = new DataProcessor();
 
+// 将Base64图像数据转换为Blob对象
+function base64ToBlob(base64Data, contentType) {
+  var sliceSize = 1024;
+  var byteCharacters = atob(base64Data);
+  var byteArrays = [];
+  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    var slice = byteCharacters.slice(offset, offset + sliceSize);
+    var byteNumbers = new Array(slice.length);
+    for (var i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+    var byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+  var blob = new Blob(byteArrays, { type: contentType });
+  return blob;
+}
+
 document
   .getElementById("sendButton")
   .addEventListener("click", async function () {
@@ -43,11 +61,12 @@ document
 
       
       console.log("response success!");
+      var contentType = 'image/jpg';
+      var resultImage = response.data.processedImage;
+      var blobResultImg = base64ToBlob(resultImage, contentType);
+      var resultImgUrl = URL.createObjectURL(blobResultImg);
+      $("#resultImage").attr("src", resultImgUrl);
 
-      var processedImageStr = response.data.processedImage;
-      var processedImage = new Image();
-      processedImage.src = "data:image/jpeg;base64," + processedImageStr;
-      document.getElementById("resultContainer").appendChild(processedImage);
       var keypointNum = response.data.keypointNum;
       var detectTime = response.data.detectTime;
       console.log(keypointNum)

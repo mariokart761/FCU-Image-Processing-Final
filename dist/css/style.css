@@ -40,11 +40,32 @@ body {
   border-width: 2px;
   border-color: rgb(205,205,206);
 }
+.result-img-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  height: 40%;
+  max-width: 720px;
+  max-height: 480px;
+  position: relative;
+  background-color: rgb(48,49,52);
+  border-style:groove;
+  border-width: 2px;
+  border-color: rgb(205,205,206);
+}
 .home-title {
   display: flex;
   justify-content: center;
 }
 .preview-img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+} 
+.result-img-container img {
   max-height: 100%;
   max-width: 100%;
   position: absolute;
