@@ -1,17 +1,18 @@
-// 顯示等待頁面
-function showLoadingPage() {
-  console.log("等待中...");
-  // 顯示等待頁面的內容
+class DataProcessor {
+  constructor() {
+    this._imageData = null;
+  }
+  // Getter
+  get imageData() {
+    return this._imageData;
+  }
+
+  // Setter
+  set imageData(newValue) {
+    this._imageData = newValue;
+  }
 }
-function hideLoadingPage(imageData) {
-  console.log("隱藏等待頁面");
-  // 顯示結果頁面的內容，使用回傳的圖片資料
-}
-// 顯示結果頁面
-function showResultPage(imageData) {
-  console.log("顯示結果頁面");
-  // 顯示結果頁面的內容，使用回傳的圖片資料
-}
+const dataProcessor = new DataProcessor();
 
 document
   .getElementById("sendButton")
@@ -19,7 +20,7 @@ document
     try {
 
       const data = new FormData();
-      data.append('img_content', imageData); 
+      data.append('img_content', dataProcessor.imageData); 
       data.append('statusGaussianFilter', true);
       data.append('statusBrightnessFixMethod', 'Clahe');
       data.append('statusSharpen', true);
@@ -59,7 +60,7 @@ function readFileAsBuffer(file) {
     reader.onload = () => resolve(reader.result);
   });
 }
-let imageData;
+
 async function handleImageFile(event) {
   const { files } = event.target;
   const file = files[0];
@@ -68,5 +69,5 @@ async function handleImageFile(event) {
     new Blob([imgBuffer], { type: "image/jpeg" })
   );
   $("#previewImage").attr("src", previewURL);
-  imageData = file;
+  dataProcessor.imageData = file;
 }
