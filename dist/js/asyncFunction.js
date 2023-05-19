@@ -17,35 +17,23 @@ document
   .getElementById("sendButton")
   .addEventListener("click", async function () {
     try {
+
+      const data = new FormData();
+      data.append('img_content', imageData); 
+      data.append('statusGaussianFilter', true);
+      data.append('statusBrightnessFixMethod', 'Clahe');
+      data.append('statusSharpen', true);
+      data.append('statusAdaptiveThreshold', true);
+      console.log(data)
+
       // 顯示等待頁面
       showLoadingPage();
 
-      const response = await axios.post("http://localhost:8000/api/image", {
-        img_path: "./img/testImg.png",
-        statusGaussianFilter: true,
-        statusBrightnessFixMethod: "Clahe",
-        statusSharpen: true,
-        statusAdaptiveThreshold: true,
+      const response = await axios.post("/api/image", data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
-      //   const formData = new FormData();
-      //   const files = document.getElementById("formFile").files;
-      //   const imgFile = files[0];
-      //   formData.append("image", imgFile);
-      //   formData.append("img_path", "./img/testImg.png");
-      //   formData.append("statusGaussianFilter", true);
-      //   formData.append("statusBrightnessFixMethod", "Clahe");
-      //   formData.append("statusSharpen", true);
-      //   formData.append("statusAdaptiveThreshold", true);
-
-      //   const response = await axios.post(
-      //     "http://localhost:8000/api/image",
-      //     formData,
-      //     {
-      //       headers: {
-      //         "Content-Type": "multipart/form-data",
-      //       },
-      //     }
-      //   );
 
       console.log("response success!");
 
@@ -71,16 +59,14 @@ function readFileAsBuffer(file) {
     reader.onload = () => resolve(reader.result);
   });
 }
+let imageData;
 async function handleImageFile(event) {
   const { files } = event.target;
-  const imgFile = files[0];
-  const imgBuffer = await readFileAsBuffer(files[0]);
+  const file = files[0];
+  const imgBuffer = await readFileAsBuffer(file);
   const previewURL = URL.createObjectURL(
     new Blob([imgBuffer], { type: "image/jpeg" })
   );
   $("#previewImage").attr("src", previewURL);
-
-  // 建立 FormData 物件
-  const formData = new FormData();
-  formData.append("image", imgFile);
+  imageData = file;
 }

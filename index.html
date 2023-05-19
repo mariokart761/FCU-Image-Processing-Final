@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="/static/css/animate.css" />
     <link rel="stylesheet" href="/static/css/loader.css" />
+    <link rel="stylesheet" href="/static/css/bootstrapFix.css" />
   </head>
 
   <body>
@@ -51,15 +52,15 @@
         />
       </div>
 
-      <div class="form-check form-switch">
+      <div class="form-check form-switch form-switch-md">
         <input
           class="form-check-input"
           type="checkbox"
           role="switch"
-          id="flexSwitchCheckChecked"
+          id="gaussianFilter"
           checked
         />
-        <label class="form-check-label" for="flexSwitchCheckChecked"
+        <label class="form-check-label" for="gaussianFilter"
           >Gaussian Filter : 高斯模糊(去圖像躁聲)</label
         >
       </div>
@@ -76,28 +77,28 @@
         </option>
       </select>
 
-      <div class="form-check form-switch">
+      <div class="form-check form-switch form-switch-md">
         <input
           class="form-check-input"
           type="checkbox"
           role="switch"
-          id="flexSwitchCheckChecked"
+          id="unsharpMasking"
           checked
         />
-        <label class="form-check-label" for="flexSwitchCheckChecked"
+        <label class="form-check-label" for="unsharpMasking"
           >Unsharp masking (圖像銳化)</label
         >
       </div>
 
-      <div class="form-check form-switch">
+      <div class="form-check form-switch form-switch-md">
         <input
           class="form-check-input"
           type="checkbox"
           role="switch"
-          id="flexSwitchCheckChecked"
+          id="adaptiveThreshold"
           checked
         />
-        <label class="form-check-label" for="flexSwitchCheckChecked"
+        <label class="form-check-label" for="adaptiveThreshold"
           >Adaptive Threshold (自適應閾值)</label
         >
       </div>
@@ -113,8 +114,7 @@
         </option>
         <option value="3">自由實驗：單純的看單張效果</option>
       </select>
-
-      <button id="sendButton">開始</button>
+      <button class="btn btn-primary" id="sendButton" type="button">開始</button>
     </div>
     <div id="resultContainer"></div>
 
