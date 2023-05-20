@@ -76,9 +76,9 @@
             id = "BrightnessFixMethodSelect"
           >
             <option selected value="0">選擇亮度校正方法</option>
-            <option value="1">亮度校正：None</option>
-            <option value="2">亮度校正：Clahe</option>
-            <option value="3">
+            <option value="None">亮度校正：None</option>
+            <option value="Clahe">亮度校正：Clahe</option>
+            <option value="Adaptive_Gamma">
               亮度校正：Adaptive Gamma Brightness correction
             </option>
           </select>
@@ -118,11 +118,11 @@
             aria-label="實驗方法"
           >
             <option value="0" selected>選擇要進行的實驗</option>
-            <option value="1">論文實驗1：相比原始算法提升了多少</option>
-            <option value="2">
+            <option value="exp1">論文實驗1：相比原始算法提升了多少</option>
+            <option value="exp2">
               論文實驗2：調整輸入圖像的亮度，並查看特徵點比對數據
             </option>
-            <option value="3">自由實驗：單純的看單張效果</option>
+            <option value="exp3">自由實驗：單純的看單張效果</option>
           </select>
         </div>
         <div class="home-page-footer">
@@ -154,10 +154,11 @@
       <div class="return-button-container">
         <button class="btn btn-primary btn-lg" id="returnButton" type="button" onclick="returnToHome()">返回</button>
       </div>
+
     </div>
 
-    <script src="/static/js/script.js"></script>
-    <script src="/static/js/dataProcess.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/js/dataProcess.js"></script>
+    <script src="/static/js/script.js"></script>
   </body>
 </html>

@@ -2,24 +2,65 @@ class DataProcessor {
   constructor() {
     this._imageData = null;
     this._statusGaussianFilter = true;
-    this._statusBrightnessFixMethod = true;
+    this._statusBrightnessFixMethod = '0';
+    this._statusUnsharpMasking = true;
     this._statusAdaptiveThreshold = true;
-    this._statusExperiment = true;
+    this._statusExperiment = '0';
     this._statusBrightAdj = 0;
   }
-  // Getter
+
   get imageData() {
     return this._imageData;
   }
-
-  // Setter
   set imageData(newValue) {
     this._imageData = newValue;
+  }
+
+  get statusGaussianFilter() {
+    return this._statusGaussianFilter;
+  }
+  set statusGaussianFilter(newValue) {
+    this._statusGaussianFilter = newValue;
+  }
+
+  get statusBrightnessFixMethod() {
+    return this._statusBrightnessFixMethod;
+  }
+  set statusBrightnessFixMethod(newValue) {
+    this._statusBrightnessFixMethod = newValue;
+  }
+
+  get statusUnsharpMasking() {
+    return this._statusUnsharpMasking;
+  }
+  set statusUnsharpMasking(newValue) {
+    this._statusUnsharpMasking = newValue;
+  }
+
+  get statusAdaptiveThreshold() {
+    return this._statusAdaptiveThreshold;
+  }
+  set statusAdaptiveThreshold(newValue) {
+    this._statusAdaptiveThreshold = newValue;
+  }
+
+  get statusExperiment() {
+    return this._statusExperiment;
+  }
+  set statusExperiment(newValue) {
+    this._statusExperiment = newValue;
+  }
+
+  get statusBrightAdj() {
+    return this._statusBrightAdj;
+  }
+  set statusBrightAdj(newValue) {
+    this._statusBrightAdj = newValue;
   }
 }
 const dataProcessor = new DataProcessor();
 
-// 将Base64图像数据转换为Blob对象
+// 將Base64轉為Blob圖像
 function base64ToBlob(base64Data, contentType) {
   var sliceSize = 1024;
   var byteCharacters = atob(base64Data);
