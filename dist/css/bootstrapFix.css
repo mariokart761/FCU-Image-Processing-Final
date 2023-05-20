@@ -15,12 +15,15 @@
 
 .form-switch.form-switch-md {
   margin-bottom: 1rem; /* JUST FOR STYLING PURPOSE */
+  display: flex;
+  align-items: baseline;
 }
 
 .form-switch.form-switch-md .form-check-input {
   height: 1.5rem;
-  width: calc(2rem + 1rem); /*調整滑動塊寬度*/
+  width: calc(2rem + 0.5rem); /*調整滑動塊寬度 */
   border-radius: 3rem;
+  transform: translateY(24%);
 }
 
 .form-switch.form-switch-md .form-check-label {
