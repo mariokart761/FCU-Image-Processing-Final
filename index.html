@@ -34,7 +34,7 @@
   <body>
     <div id="homePage" class="home-page text-light animate__animated animate__fadeInDown">
       <div class="home-title">
-        <h1>ORB特徵點檢測算法分析</h1>
+        <h2>ORB特徵點偵測算法分析</h2>
       </div>
 
       <div class="preview-img-container">
@@ -43,7 +43,7 @@
 
       <div class="data-setting-container">
 
-        <h3>實驗設定</h3>
+        <h4>實驗設定</h4>
         
         <div class="image-input-container">
           <input
@@ -52,7 +52,7 @@
             id="imgFileInput"
             accept=".jpg,.png"
             placeholder="請選擇圖片檔案"
-            onchange="handleImageFile(event)"
+            onchange="handlePreviewImageFile(event)"
           />
         </div>
         <div class="gaussian-filter-select-container switcher-container">
@@ -66,7 +66,7 @@
               checked
             />
             <label class="form-check-label" for="gaussianFilter"
-              >Gaussian Filter : 高斯模糊(去圖像躁聲)</label>
+              >Gaussian Filter(高斯濾波)</label>
           </div>
         </div>
         <div class="brightness-fix-method-select-container">
@@ -93,7 +93,7 @@
               checked
             />
             <label class="form-check-label" for="unsharpMasking"
-              >Unsharp masking (圖像銳化)</label
+              >Unsharp masking(圖像銳化)</label
             >
           </div>
         </div>
@@ -107,7 +107,7 @@
               checked
             />
             <label class="form-check-label" for="adaptiveThreshold"
-              >Adaptive Threshold (自適應閾值)</label
+              >自適應ORB閾值</label
             >
           </div>
         </div>
@@ -139,16 +139,31 @@
       </div>
 
     </div>
-
-    <div id=loadingPage class="loading-page text-light d-none">
+    <!-- loading page -->
+    <div id=loadingPage class="text-light loading-page d-none">
       <h1>Now Loading...</h1>
-      <img class="loading-img" src="https://cdn.discordapp.com/attachments/862518605433012268/1109140766024015934/Rick_Roll_Lossy.gif" alt="" id="loadingImage" />
+      <div class="loading-img-container">
+        <img class="loading-img" src="https://cdn.discordapp.com/attachments/862518605433012268/1109140766024015934/Rick_Roll_Lossy.gif" alt="" id="loadingImage" />
+      </div>
     </div>
+    <!-- result page -->
+    <div id=resultPage class="text-light result-page d-none">
 
-    <div id=resultPage class="result-page d-none">
       <h1>Result</h1>
       <div class="result-img-container">
         <img class="result-img" src="" alt="" id="resultImage" />
+
+      </div>
+      <div class="result-data-container-left">
+        <div class="block-keypoint-data-left">
+          <label for="" class="keypoint-left">檢測到的特徵點數量 : </label>
+          <span class="keypoint-left-num" id="keypoint-left-num"></span>
+        </div>
+
+        <div class="block-time-data-left">
+        <label for="" class="time-left">特徵點偵測時間 : </label>
+        <span class="time-left-num" id="time-left-num"></span>
+        </div>
       </div>
 
       <div class="return-button-container">

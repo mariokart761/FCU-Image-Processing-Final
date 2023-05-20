@@ -83,18 +83,21 @@ document
   .addEventListener("click", async function () {
     try {
       if(checkSettingInput()!=true) return;
+
       const data = new FormData();
       data.append('img_content', dataProcessor.imageData); 
-      data.append('statusGaussianFilter', true);
-      data.append('statusBrightnessFixMethod', 'Clahe');
-      data.append('statusSharpen', true);
-      data.append('statusAdaptiveThreshold', true);
+      data.append('statusGaussianFilter', dataProcessor.statusGaussianFilter);
+      data.append('statusBrightnessFixMethod', dataProcessor.statusBrightnessFixMethod);
+      data.append('statusSharpen', dataProcessor.statusUnsharpMasking);
+      data.append('statusAdaptiveThreshold', dataProcessor.statusAdaptiveThreshold);
+      data.append('statusExperiment', dataProcessor.statusExperiment);
+      data.append('statusBrightAdj', dataProcessor.statusBrightAdj);
       console.log(data)
 
       // 顯示等待頁面
       showLoadingPage();
 
-      const response = await axios.post("/api/image", data, {
+      const response = await axios.post("/api/orbProcessing", data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -110,8 +113,10 @@ document
 
       var keypointNum = response.data.keypointNum;
       var detectTime = response.data.detectTime;
-      console.log(keypointNum)
-      console.log(detectTime)
+      $$("#keypoint-left-num").innerHTML = keypointNum;
+      $$("#time-left-num").innerHTML = detectTime + " s";
+      // console.log(keypointNum)
+      // console.log(detectTime)
 
       // 顯示結果頁面
       showResultPage();
@@ -120,6 +125,7 @@ document
     }
   });
 
+// 將file圖像轉為buffer
 function readFileAsBuffer(file) {
   const reader = new FileReader();
   reader.readAsArrayBuffer(file);
@@ -128,7 +134,8 @@ function readFileAsBuffer(file) {
   });
 }
 
-async function handleImageFile(event) {
+// 將選擇的檔案以Blob型式顯示在$("#previewImage")中
+async function handlePreviewImageFile(event) {
   const { files } = event.target;
   const file = files[0];
   const imgBuffer = await readFileAsBuffer(file);
