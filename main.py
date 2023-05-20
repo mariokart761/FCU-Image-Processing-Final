@@ -28,7 +28,7 @@ async def read_html():
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app.post("/api/image")
+@app.post("/api/orbProcessing")
 async def handle_request(img_content: UploadFile = File(...),
                          statusGaussianFilter: bool = Form(...),
                          statusBrightnessFixMethod: str = Form(...),
