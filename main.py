@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_html():
-    with open("index.html", "r") as file:
+    with open("index.html", "r", encoding="utf-8") as file:
         html_content = file.read()
     return HTMLResponse(content=html_content, status_code=200)
 
