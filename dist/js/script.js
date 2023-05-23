@@ -5,20 +5,22 @@ function $$(element) {
 function $$all(element) {
   return document.querySelectorAll(element);
 }
+// 移除第一次進入頁面的animated屬性
 $$("#homePage").addEventListener("animationend", function () {
   $$("#homePage").classList.remove("animate__animated", "animate__fadeInDown");
 });
+
 // 顯示等待頁面
 function showLoadingPage() {
   // homePage Out
   $$("#homePage").classList.add("d-none");
   // loadingPage In
   $$("#loadingPage").classList.remove("d-none");
-  $$("#loadingPage").classList.add("animate__animated", "animate__flipInY");
+  $$("#loadingPage").classList.add("animate__animated", "animate__zoomIn");
   $$("#loadingPage").addEventListener("animationend", function () {
     $$("#loadingPage").classList.remove(
       "animate__animated",
-      "animate__flipInY"
+      "animate__zoomIn"
     );
   });
   console.log("等待中...");
@@ -29,9 +31,9 @@ function showResultPage() {
   $$("#loadingPage").classList.add("d-none");
   // resultPage In
   $$("#resultPage").classList.remove("d-none");
-  $$("#resultPage").classList.add("animate__animated", "animate__flipInY");
+  $$("#resultPage").classList.add("animate__animated", "animate__zoomIn");
   $$("#resultPage").addEventListener("animationend", function () {
-    $$("#resultPage").classList.remove("animate__animated", "animate__flipInY");
+    $$("#resultPage").classList.remove("animate__animated", "animate__zoomIn");
   });
   // $$("#loadingPage").classList.add("d-none");
   // // resultPage In
