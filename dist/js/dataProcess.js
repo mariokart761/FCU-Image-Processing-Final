@@ -117,6 +117,7 @@ document
       else if(dataProcessor.statusExperiment === 'exp2'){
         console.log("Exp2 response success!");
         var contentType = 'image/jpg';
+        // 明顯的Dirty code 暫時懶得動
         var resultImageLeft = response.data.processedImageLeft;
         var resultImageRight = response.data.processedImageRight;
         var resultImageMatch = response.data.processedImageMatch;
@@ -126,15 +127,22 @@ document
         var resultImgLeftUrl = URL.createObjectURL(blobResultImgLeft);
         var resultImgRightUrl = URL.createObjectURL(blobResultImgRight);
         var resultImgMatchUrl = URL.createObjectURL(blobResultImgMatch);
-
-        $("#resultImage").attr("src", resultImgLeftUrl);
-
+        $("#resultImageLeft").attr("src", resultImgLeftUrl);
+        $("#resultImageRight").attr("src", resultImgRightUrl);
+        $("#resultImageMatch").attr("src", resultImgMatchUrl);
         var keypointNumLeft = response.data.keypointNumLeft;
+        var keypointNumRight = response.data.keypointNumRight;
+        var keypointNumMatch = response.data.keypointNumMatch;
         var detectTimeLeft = response.data.detectTimeLeft;
+        var detectTimeRight = response.data.detectTimeRight;
+        var detectTimeMatch = response.data.detectTimeMatch;
+
         $$("#keypoint-left-num").innerHTML = keypointNumLeft;
+        $$("#keypoint-right-num").innerHTML = keypointNumRight;
+        $$("#keypoint-match-num").innerHTML = keypointNumMatch;
         $$("#time-left-num").innerHTML = detectTimeLeft + " s";
-        // console.log(keypointNum)
-        // console.log(detectTime)
+        $$("#time-right-num").innerHTML = detectTimeRight + " s";
+        $$("#time-match-num").innerHTML = detectTimeMatch + " s";
 
         // 顯示結果頁面
         showResultPage();
@@ -151,8 +159,6 @@ document
         var detectTime = response.data.detectTime;
         $$("#keypoint-left-num").innerHTML = keypointNum;
         $$("#time-left-num").innerHTML = detectTime + " s";
-        // console.log(keypointNum)
-        // console.log(detectTime)
 
         // 顯示結果頁面
         showResultPage();
