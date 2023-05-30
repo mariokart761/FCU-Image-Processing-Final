@@ -85,7 +85,30 @@ function base64ToBlob(base64, contentType) {
   return new Blob(byteArrays, { type: contentType });
 }
 
+function resultCarouselControl(){
+  // 在你的條件滿足後，根據 `condition` 值來修改 Carousel 內容和按鈕
+  if (dataProcessor.statusExperiment === 'exp1') {
+    // 只有2頁
+    $('.carousel-item:nth-child(3)').remove();
+  } else if (dataProcessor.statusExperiment === 'exp2') {
+    // 有3頁
+    // 這裡不需要做任何修改，因為原始 HTML 就是3頁的配置
+  } else if (dataProcessor.statusExperiment === 'exp3') {
+    // 只有1頁，隱藏左右換頁按鈕
+    $('.carousel-control-prev, .carousel-control-next').hide();
+  }
 
+}
+
+$(document).ready(function() {
+  var originalContent = $('#resultCarousel').html(); // 儲存原始的 Carousel 內容
+
+  // 按下 returnButton 按鈕時恢復原狀
+  $('#returnButton').click(function() {
+    $('#resultCarousel').html(originalContent); // 還原 Carousel 內容
+    $('.carousel-control-prev, .carousel-control-next').show(); // 顯示左右換頁按鈕
+  });
+});
 
 document
   .getElementById("sendButton")
@@ -113,53 +136,97 @@ document
       });
 
       if(dataProcessor.statusExperiment === 'exp1'){
+        console.log("Exp2 response success!");
+        var contentType = 'image/jpg';
+        var upperKeys = ["Left", "Right"];
+        var lowerKeys = ["left", "right"];
+
+        upperKeys.forEach(function(key, index) {
+          var resultImage = response.data["processedImage" + key];
+          var blobResultImg = base64ToBlob(resultImage, contentType);
+          var resultImgUrl = URL.createObjectURL(blobResultImg);
+          $("#resultImage" + key).attr("src", resultImgUrl);
+
+          var kpNum = response.data["keypointNum" + key];
+          var dTime = response.data["detectTime" + key];
+
+          $$("#keypoint" + upperKeys[index] + "Num").innerHTML = kpNum;
+          $$("#time" + upperKeys[index] + "Num").innerHTML = dTime + " s";
+        });
+
+        // 控制結果Carousel頁數
+        resultCarouselControl()
+        // 顯示結果頁面
+        showResultPage();
+
       }
       else if(dataProcessor.statusExperiment === 'exp2'){
         console.log("Exp2 response success!");
         var contentType = 'image/jpg';
-        // 明顯的Dirty code 暫時懶得動
-        var resultImageLeft = response.data.processedImageLeft;
-        var resultImageRight = response.data.processedImageRight;
-        var resultImageMatch = response.data.processedImageMatch;
-        var blobResultImgLeft = base64ToBlob(resultImageLeft, contentType);
-        var blobResultImgRight = base64ToBlob(resultImageRight, contentType);
-        var blobResultImgMatch = base64ToBlob(resultImageMatch, contentType);
-        var resultImgLeftUrl = URL.createObjectURL(blobResultImgLeft);
-        var resultImgRightUrl = URL.createObjectURL(blobResultImgRight);
-        var resultImgMatchUrl = URL.createObjectURL(blobResultImgMatch);
-        $("#resultImageLeft").attr("src", resultImgLeftUrl);
-        $("#resultImageRight").attr("src", resultImgRightUrl);
-        $("#resultImageMatch").attr("src", resultImgMatchUrl);
-        var keypointNumLeft = response.data.keypointNumLeft;
-        var keypointNumRight = response.data.keypointNumRight;
-        var keypointNumMatch = response.data.keypointNumMatch;
-        var detectTimeLeft = response.data.detectTimeLeft;
-        var detectTimeRight = response.data.detectTimeRight;
-        var detectTimeMatch = response.data.detectTimeMatch;
 
-        $$("#keypoint-left-num").innerHTML = keypointNumLeft;
-        $$("#keypoint-right-num").innerHTML = keypointNumRight;
-        $$("#keypoint-match-num").innerHTML = keypointNumMatch;
-        $$("#time-left-num").innerHTML = detectTimeLeft + " s";
-        $$("#time-right-num").innerHTML = detectTimeRight + " s";
-        $$("#time-match-num").innerHTML = detectTimeMatch + " s";
+        // var resultImageLeft = response.data.processedImageLeft;
+        // var resultImageRight = response.data.processedImageRight;
+        // var resultImageMatch = response.data.processedImageMatch;
+        // var blobResultImgLeft = base64ToBlob(resultImageLeft, contentType);
+        // var blobResultImgRight = base64ToBlob(resultImageRight, contentType);
+        // var blobResultImgMatch = base64ToBlob(resultImageMatch, contentType);
+        // var resultImgLeftUrl = URL.createObjectURL(blobResultImgLeft);
+        // var resultImgRightUrl = URL.createObjectURL(blobResultImgRight);
+        // var resultImgMatchUrl = URL.createObjectURL(blobResultImgMatch);
+        // $("#resultImageLeft").attr("src", resultImgLeftUrl);
+        // $("#resultImageRight").attr("src", resultImgRightUrl);
+        // $("#resultImageMatch").attr("src", resultImgMatchUrl);
+        // var keypointNumLeft = response.data.keypointNumLeft;
+        // var keypointNumRight = response.data.keypointNumRight;
+        // var keypointNumMatch = response.data.keypointNumMatch;
+        // var detectTimeLeft = response.data.detectTimeLeft;
+        // var detectTimeRight = response.data.detectTimeRight;
+        // var detectTimeMatch = response.data.detectTimeMatch;
+        // $$("#keypoint-left-num").innerHTML = keypointNumLeft;
+        // $$("#keypoint-right-num").innerHTML = keypointNumRight;
+        // $$("#keypoint-match-num").innerHTML = keypointNumMatch;
+        // $$("#time-left-num").innerHTML = detectTimeLeft + " s";
+        // $$("#time-right-num").innerHTML = detectTimeRight + " s";
+        // $$("#time-match-num").innerHTML = detectTimeMatch + " s";
 
+        var upperKeys = ["Left", "Right", "Match"];
+        var lowerKeys = ["left", "right", "match"];
+
+        upperKeys.forEach(function(key, index) {
+          var resultImage = response.data["processedImage" + key];
+          var blobResultImg = base64ToBlob(resultImage, contentType);
+          var resultImgUrl = URL.createObjectURL(blobResultImg);
+          $("#resultImage" + key).attr("src", resultImgUrl);
+
+          var kpNum = response.data["keypointNum" + key];
+          var dTime = response.data["detectTime" + key];
+
+          $$("#keypoint" + upperKeys[index] + "Num").innerHTML = kpNum;
+          $$("#time" + upperKeys[index] + "Num").innerHTML = dTime + " s";
+        });
+
+        // 控制結果Carousel頁數
+        resultCarouselControl()
         // 顯示結果頁面
         showResultPage();
+        
       }
+
       else if(dataProcessor.statusExperiment === 'exp3'){
         console.log("Exp3 response success!");
         var contentType = 'image/jpg';
         var resultImage = response.data.processedImage;
         var blobResultImg = base64ToBlob(resultImage, contentType);
         var resultImgUrl = URL.createObjectURL(blobResultImg);
-        $("#resultImage").attr("src", resultImgUrl);
+        $("#resultImageLeft").attr("src", resultImgUrl);
 
         var keypointNum = response.data.keypointNum;
         var detectTime = response.data.detectTime;
-        $$("#keypoint-left-num").innerHTML = keypointNum;
-        $$("#time-left-num").innerHTML = detectTime + " s";
+        $$("#keypointLeftNum").innerHTML = keypointNum;
+        $$("#timeLeftNum").innerHTML = detectTime + " s";
 
+        // 控制結果Carousel頁數
+        resultCarouselControl()
         // 顯示結果頁面
         showResultPage();
       }

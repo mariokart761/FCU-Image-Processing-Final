@@ -12,7 +12,7 @@ import time
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="dist"), name="static")
 
-# 設定 CORS 中介
+# 設定 CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:8000"],  # 設定允許的來源（域名），設為 "*"則允許所有網域
@@ -47,14 +47,14 @@ async def handle_request(img_content: UploadFile = File(...),
             "statusSharpen": statusSharpen,
             "statusAdaptiveThreshold": statusAdaptiveThreshold
         }
-        # print(config_data)
         experiment = statusExperiment
         bright_adj = statusBrightAdj
         response_wait_time = 1 # server回應延遲
         
         orbProcessor = orb_module.OrbProcessor()
         orbProcessor.setORBProcessor(config_data)
-        # 論文實驗1：相比原始算法提升了多少
+        
+        # exp1 論文實驗1：相比原始算法提升了多少
         if (experiment == "exp1"):
             result_img, keypoint_data, used_time = orbProcessor.compareToDefault()
             """
@@ -86,7 +86,7 @@ async def handle_request(img_content: UploadFile = File(...),
             
             return JSONResponse(content)
             ...
-        # 論文實驗2：調整輸入圖像的亮度，並查看特徵點比對數據
+        # exp2 論文實驗2：調整輸入圖像的亮度，並查看特徵點比對數據
         elif (experiment == "exp2"):
             result_img, keypoint_data, used_time = orbProcessor.compareToDiffBrightness(brightness_adj = bright_adj)
             """
@@ -108,7 +108,6 @@ async def handle_request(img_content: UploadFile = File(...),
             image_str_left = base64.b64encode(buffer_left).decode('utf-8')
             image_str_right = base64.b64encode(buffer_right).decode('utf-8')
             image_str_match = base64.b64encode(buffer_match).decode('utf-8')
-            print(result_img[0])
             content = {"processedImageLeft": image_str_left,
                     "processedImageRight": image_str_right,
                     "processedImageMatch": image_str_match,
@@ -124,11 +123,10 @@ async def handle_request(img_content: UploadFile = File(...),
             
             return JSONResponse(content)
             ...
-        # 查看單張圖的效果
+        
+        # exp3 查看單張圖的效果
         elif (experiment == "exp3"):
             result_img, keypoint_num, detect_time = orbProcessor.detectOrbFeature()
-            print("Features : " + str(keypoint_num))
-            print("Time : " + str(detect_time) + "s")
 
             _, buffer = cv2.imencode('.jpg', result_img)
             image_str = base64.b64encode(buffer).decode('utf-8')

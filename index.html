@@ -146,25 +146,72 @@
         <img class="loading-img" src="https://cdn.discordapp.com/attachments/862518605433012268/1109140766024015934/Rick_Roll_Lossy.gif" alt="" id="loadingImage" />
       </div>
     </div>
+
     <!-- result page -->
     <div id=resultPage class="text-light result-page d-none">
+      
+      <div class="result-data-container">
+        <div id="resultCarousel" class="carousel slide" data-bs-ride="false" data-bs-touch="false">
+          <div class="carousel-inner">
+            <h1>Result</h1>
+            <!-- item1 -->
+            <div class="carousel-item active">
+              
+              <img class=".d-block and .w-100 result-img img-fluid" src="" alt="" id="resultImageLeft" />
+              <div class="area-keypoint-data">
+                <label for="" class="keypoint-label">檢測到的特徵點數量 : </label>
+                <span class="keypoint-num" id="keypointLeftNum"></span>
+              </div>
+      
+              <div class="area-time-data">
+                <label for="" class="time-label">特徵點偵測時間 : </label>
+                <span class="time-num" id="timeLeftNum"></span>
+              </div>
+            </div>
 
-      <h1>Result</h1>
-      <div class="result-img-container">
-        <img class="result-img" src="" alt="" id="resultImage" />
+            <!-- item2 -->
+            <div class="carousel-item">
+              <img class=".d-block and .w-100 result-img img-fluid" src="" alt="" id="resultImageRight" />
+              <div class="area-keypoint-data">
+                <label for="" class="keypoint-label">檢測到的特徵點數量 : </label>
+                <span class="keypoint-num" id="keypointRightNum"></span>
+              </div>
+      
+              <div class="area-time-data">
+                <label for="" class="time-label">特徵點偵測時間 : </label>
+                <span class="time-num" id="timeRightNum"></span>
+              </div>
+            </div>
 
-      </div>
-      <div class="result-data-container-left">
-        <div class="block-keypoint-data-left">
-          <label for="" class="keypoint-left">檢測到的特徵點數量 : </label>
-          <span class="keypoint-left-num" id="keypoint-left-num"></span>
+            <!-- item3 -->
+            <div class="carousel-item">
+              <img class=".d-block and .w-100 result-img img-fluid wide-image" src="" alt="" id="resultImageMatch" />
+              <div class="area-keypoint-data">
+                <label for="" class="keypoint-label"> Match特徵點數量 : </label>
+                <span class="keypoint-num" id="keypointMatchNum"></span>
+              </div>
+      
+              <div class="area-time-data">
+                <label for="" class="time-label"> Match時間 : </label>
+                <span class="time-num" id="timeMatchNum"></span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- prev/next button -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#resultCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#resultCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
 
-        <div class="block-time-data-left">
-        <label for="" class="time-left">特徵點偵測時間 : </label>
-        <span class="time-left-num" id="time-left-num"></span>
-        </div>
       </div>
+
 
       <div class="return-button-container">
         <button class="btn btn-primary btn-lg" id="returnButton" type="button" onclick="returnToHome()">返回</button>

@@ -23,6 +23,8 @@ body {
 }
 .result-page {
   height: 100vh;
+  width: 100vw;
+  max-height: 100%;
   display: flex;
   align-content: center;
   flex-direction: column;
@@ -43,7 +45,7 @@ body {
   border-width: 2px;
   border-color: rgb(205,205,206);
 }
-.result-img-container {
+/* .result-img-container {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -56,13 +58,13 @@ body {
   border-style:groove;
   border-width: 2px;
   border-color: rgb(205,205,206);
-}
+} */
 .loading-img-container {
   display: flex;
   justify-content: center;
   align-content: center;
   max-width: 100%;
-  max-height: 100%;
+  max-height: 50%;
   position: relative;
 }
 .home-title {
@@ -76,13 +78,27 @@ body {
   top: 50%;
   transform: translateY(-50%);
 } 
-.result-img-container img {
+/* .result-img img{
   max-height: 100%;
   max-width: 100%;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-} 
+} */
+/* .result-img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}  */
+/* .loading-img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}  */
 .data-setting-container {
   margin-top: 1%;
   display: flex;
@@ -120,3 +136,20 @@ body {
   margin-top: 2%;
 }
 
+.result-data-container{
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+/* .wide-image {
+  height: auto;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+} */
+
+/* Need to Fix : https://codepen.io/bsturdyuk/pen/PGboyZ */
