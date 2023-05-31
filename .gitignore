@@ -16,3 +16,4 @@ modules/__pycache__/origin_orb.cpython-310.pyc
 modules/__pycache__/unsharp_masking.cpython-310.pyc
 __pycache__/main.cpython-310.pyc
 __pycache__/full_stack_orb_detection.cpython-310.pyc
+version_check.py
