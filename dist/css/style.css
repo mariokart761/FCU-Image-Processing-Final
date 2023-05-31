@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(32,33,36);
+  background-color: rgb(32, 33, 36);
   overflow-x: hidden;
   user-select: none; /* 標準語法 */
 }
@@ -28,7 +28,7 @@ body {
   display: flex;
   align-content: center;
   flex-direction: column;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-evenly;
 }
 .preview-img-container {
@@ -40,22 +40,29 @@ body {
   max-height: 40%;
   max-width: 480px;
   position: relative;
-  background-color: rgb(48,49,52);
-  border-style:groove;
+  background-color: rgb(48, 49, 52);
+  border-style: groove;
   border-width: 2px;
-  border-color: rgb(205,205,206);
+  border-color: rgb(205, 205, 206);
 }
 .result-img-container {
   display: flex;
   justify-content: center;
   align-content: center;
-  width: 96%;
-  max-height: 70%;
+  height: 60vh;
+  width: 100%;
   position: relative;
-  background-color: rgb(48,49,52);
-  border-style:groove;
+  background-color: rgb(48, 49, 52);
+  border-style: groove;
   border-width: 2px;
-  border-color: rgb(205,205,206);
+  border-color: rgb(205, 205, 206);
+}
+.result-img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .loading-img-container {
   display: flex;
@@ -65,7 +72,8 @@ body {
   max-height: 50%;
   position: relative;
 }
-.home-title {
+.home-title,
+.loading-title {
   display: flex;
   justify-content: center;
 }
@@ -75,28 +83,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-} 
-/* .result-img img{
-  max-height: 100%;
-  max-width: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-} */
-/* .result-img-container img {
-  max-height: 100%;
-  max-width: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}  */
-/* .loading-img-container img {
-  max-height: 100%;
-  max-width: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}  */
+}
 .data-setting-container {
   margin-top: 1%;
   display: flex;
@@ -124,7 +111,9 @@ body {
   width: 50%;
   display: flex;
   justify-content: flex-end;
-  font-weight:bold;
+}
+.start-button-container button {
+  font-weight: bold;
 }
 .home-page-footer {
   width: 100%;
@@ -133,30 +122,33 @@ body {
   justify-content: space-around;
   margin-top: 2%;
 }
-.result-title{
+.result-title {
   display: flex;
   justify-content: center;
   margin-top: 1%;
 }
-.result-data-container {
-  width: 96%;
-  max-height: 70%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  align-content: center;
-  flex-wrap: wrap;
+.carousel-container {
+  width: 92%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .return-button-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 1%;
 }
-/* .wide-image {
-  height: auto;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-} */
+.result-text-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: flex-start;
+  margin-top: 1em;
+}
+.carousel-control-next,
+.carousel-control-prev {
+  align-items: flex-end;
+  margin-bottom: 1.6em;
+}
 
 /* Need to Fix : https://codepen.io/bsturdyuk/pen/PGboyZ */

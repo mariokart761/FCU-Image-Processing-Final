@@ -86,15 +86,14 @@ function base64ToBlob(base64, contentType) {
 }
 
 function resultCarouselControl(){
-  // 在你的條件滿足後，根據 `condition` 值來修改 Carousel 內容和按鈕
+  // 來修改 Carousel 頁數
   if (dataProcessor.statusExperiment === 'exp1') {
-    // 只有2頁
+    // 2頁
     $('.carousel-item:nth-child(3)').remove();
   } else if (dataProcessor.statusExperiment === 'exp2') {
-    // 有3頁
-    // 這裡不需要做任何修改，因為原始 HTML 就是3頁的配置
+    // 3頁
   } else if (dataProcessor.statusExperiment === 'exp3') {
-    // 只有1頁，隱藏左右換頁按鈕
+    // 1頁，隱藏左右換頁按鈕
     $('.carousel-control-prev, .carousel-control-next').hide();
   }
 
@@ -153,8 +152,9 @@ document
           $$("#keypoint" + upperKeys[index] + "Num").innerHTML = kpNum;
           $$("#time" + upperKeys[index] + "Num").innerHTML = dTime + " s";
         });
-
-        // 控制結果Carousel頁數
+        $$("#category-title-1").innerHTML = "原始ORB算法 檢測結果"
+        $$("#category-title-2").innerHTML = "調整後算法 檢測結果"
+        // 控制Carousel頁數
         resultCarouselControl()
         // 顯示結果頁面
         showResultPage();
@@ -205,7 +205,13 @@ document
           $$("#time" + upperKeys[index] + "Num").innerHTML = dTime + " s";
         });
 
-        // 控制結果Carousel頁數
+        $$("#category-title-1").innerHTML = "原亮度檢測結果"
+        if(dataProcessor.statusBrightAdj >= 0) var catText2 = "亮度 +" + dataProcessor.statusBrightAdj + "% 檢測結果" ;
+        else var catText2 = "亮度 " + dataProcessor.statusBrightAdj + "% 檢測結果";
+        $$("#category-title-2").innerHTML = catText2
+        $$("#category-title-3").innerHTML = "Match結果"
+        
+        // 控制Carousel頁數
         resultCarouselControl()
         // 顯示結果頁面
         showResultPage();
@@ -225,7 +231,8 @@ document
         $$("#keypointLeftNum").innerHTML = keypointNum;
         $$("#timeLeftNum").innerHTML = detectTime + " s";
 
-        // 控制結果Carousel頁數
+        $$("#category-title-1").innerHTML = "檢測結果"
+        // 控制Carousel頁數
         resultCarouselControl()
         // 顯示結果頁面
         showResultPage();

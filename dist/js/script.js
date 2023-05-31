@@ -35,17 +35,9 @@ function showResultPage() {
   $$("#resultPage").addEventListener("animationend", function () {
     $$("#resultPage").classList.remove("animate__animated", "animate__zoomIn");
   });
-  // $$("#loadingPage").classList.add("d-none");
-  // // resultPage In
-  // $$("#resultPage").classList.remove("d-none");
-  // $$("#resultPage").classList.add("animate__animated", "animate__flipInY");
-  // $$("#resultPage").addEventListener("animationend", function () {
-  //   $$("#resultPage").classList.remove("animate__animated", "animate__flipInY");
-  // });
   console.log("顯示結果頁面");
-  // 顯示結果頁面的內容，使用回傳的圖片資料
 }
-// 回家
+// 返回主畫面
 function returnToHome() {
   $$("#resultPage").classList.add("d-none");
   $$("#homePage").classList.remove("d-none");
@@ -53,6 +45,7 @@ function returnToHome() {
   $$("#homePage").addEventListener("animationend", function () {
     $$("#homePage").classList.remove("animate__animated", "animate__zoomIn");
   });
+  loadRandomImage();
 }
 
 // 亮度校正滑動調整
@@ -133,3 +126,22 @@ function checkSettingInput() {
   }
   return true;
 }
+
+var imageLinks = [
+  "https://cdn.discordapp.com/attachments/862518605433012268/1109140766024015934/Rick_Roll_Lossy.gif",
+  "https://cdn.discordapp.com/attachments/862518605433012268/1113318764725944450/kita.gif",
+  "https://cdn.discordapp.com/attachments/862518605433012268/1113317327799324692/think_Lossy.gif",
+  "https://cdn.discordapp.com/attachments/862518605433012268/1113317328193585182/4d10aff27de4f7a4260dd6528b556c8d.gif",
+];
+
+function loadRandomImage() {
+  var randomIndex = Math.floor(Math.random() * imageLinks.length);
+  var randomImageLink = imageLinks[randomIndex];
+  var imgElement = document.getElementById('loadingImage');
+  var image = new Image();
+  image.onload = function() {
+    imgElement.src = randomImageLink;
+  };
+  image.src = randomImageLink;
+}
+window.onload = loadRandomImage;

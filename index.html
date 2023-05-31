@@ -141,31 +141,36 @@
     </div>
     <!-- loading page -->
     <div id=loadingPage class="text-light loading-page d-none">
-      <h1>Now Loading...</h1>
+      <h1 class="loading-title">Now Loading...</h1>
       <div class="loading-img-container">
-        <img class="loading-img" src="https://cdn.discordapp.com/attachments/862518605433012268/1109140766024015934/Rick_Roll_Lossy.gif" alt="" id="loadingImage" />
+        <img class="loading-img" src="" alt="" id="loadingImage" />
       </div>
     </div>
 
     <!-- result page -->
     <div id=resultPage class="text-light result-page d-none">
       <h1 class="result-title">Result</h1>
-      <div class="result-data-container">
-        <div id="resultCarousel" class="carousel slide" data-bs-ride="false" data-bs-touch="false">
+      <div class="carousel-container">
+        <div id="resultCarousel" class="carousel slide mx-auto" data-bs-ride="false">
           <div class="carousel-inner">
             <!-- item1 -->
             <div class="carousel-item active">
               <div class="result-img-container ">
                 <img class=".d-block and .w-100 result-img img-fluid" src="" alt="" id="resultImageLeft" />
               </div>
-              <div class="keypoint-data-container">
-                <label for="" class="keypoint-label">檢測到的特徵點數量 : </label>
-                <span class="keypoint-num" id="keypointLeftNum"></span>
-              </div>
-      
-              <div class="time-data-container">
-                <label for="" class="time-label">特徵點偵測時間 : </label>
-                <span class="time-num" id="timeLeftNum"></span>
+              <div class="result-text-container">
+                <div class="category-container">
+                  <h3 for="" class="category-title" id="category-title-1"> Default-Cat1 </h3>
+                </div>
+                <div class="keypoint-data-container">
+                  <label for="" class="keypoint-label">檢測到的特徵點數量 : </label>
+                  <span class="keypoint-num" id="keypointLeftNum"></span>
+                </div>
+        
+                <div class="time-data-container">
+                  <label for="" class="time-label">特徵點偵測時間 : </label>
+                  <span class="time-num" id="timeLeftNum"></span>
+                </div>
               </div>
             </div>
 
@@ -174,30 +179,40 @@
               <div class="result-img-container ">
                 <img class=".d-block and .w-100 result-img img-fluid" src="" alt="" id="resultImageRight" />
               </div>
-              <div class="keypoint-data-container">
-                <label for="" class="keypoint-label">檢測到的特徵點數量 : </label>
-                <span class="keypoint-num" id="keypointRightNum"></span>
-              </div>
+              <div class="result-text-container">
+                <div class="category-container">
+                  <h3 for="" class="category-title" id="category-title-2"> Default-Cat2 </h3>
+                </div>
+                <div class="keypoint-data-container">
+                  <label for="" class="keypoint-label">檢測到的特徵點數量 : </label>
+                  <span class="keypoint-num" id="keypointRightNum"></span>
+                </div>
       
-              <div class="time-data-container">
-                <label for="" class="time-label">特徵點偵測時間 : </label>
-                <span class="time-num" id="timeRightNum"></span>
+                <div class="time-data-container">
+                  <label for="" class="time-label">特徵點偵測時間 : </label>
+                  <span class="time-num" id="timeRightNum"></span>
+                </div>
               </div>
             </div>
 
             <!-- item3 -->
             <div class="carousel-item">
               <div class="result-img-container ">
-                <img class=".d-block and .w-100 result-img img-fluid wide-image" src="" alt="" id="resultImageMatch" />
+                <img class=".d-block and .w-100 result-img img-fluid" src="" alt="" id="resultImageMatch" />
               </div>
-              <div class="keypoint-data-container">
-                <label for="" class="keypoint-label"> Match特徵點數量 : </label>
-                <span class="keypoint-num" id="keypointMatchNum"></span>
-              </div>
-      
-              <div class="time-data-container">
-                <label for="" class="time-label"> Match時間 : </label>
-                <span class="time-num" id="timeMatchNum"></span>
+              <div class="result-text-container">
+                <div class="category-container">
+                  <h3 for="" class="category-title" id="category-title-3"> Default-Cat3 </h3>
+                </div>
+                <div class="keypoint-data-container">
+                  <label for="" class="keypoint-label"> Match特徵點數量 : </label>
+                  <span class="keypoint-num" id="keypointMatchNum"></span>
+                </div>
+        
+                <div class="time-data-container">
+                  <label for="" class="time-label"> Match時間 : </label>
+                  <span class="time-num" id="timeMatchNum"></span>
+                </div>
               </div>
             </div>
 
