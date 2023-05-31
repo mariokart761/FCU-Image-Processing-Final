@@ -129,7 +129,7 @@ function checkSettingInput() {
 
 var imageLinks = [
   "https://cdn.discordapp.com/attachments/862518605433012268/1109140766024015934/Rick_Roll_Lossy.gif",
-  "https://cdn.discordapp.com/attachments/862518605433012268/1113318764725944450/kita.gif",
+  "https://cdn.discordapp.com/attachments/862518605433012268/1113516851834650705/kita_speedup.gif",
   "https://cdn.discordapp.com/attachments/862518605433012268/1113317327799324692/think_Lossy.gif",
   "https://cdn.discordapp.com/attachments/862518605433012268/1113317328193585182/4d10aff27de4f7a4260dd6528b556c8d.gif",
 ];
