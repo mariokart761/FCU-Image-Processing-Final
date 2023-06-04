@@ -132,6 +132,8 @@ var imageLinks = [
   "https://cdn.discordapp.com/attachments/862518605433012268/1113516851834650705/kita_speedup.gif",
   "https://cdn.discordapp.com/attachments/862518605433012268/1113317327799324692/think_Lossy.gif",
   "https://cdn.discordapp.com/attachments/862518605433012268/1113317328193585182/4d10aff27de4f7a4260dd6528b556c8d.gif",
+  "https://cdn.discordapp.com/attachments/862518605433012268/1115052220476575855/VoarP6Z.gif",
+  "https://cdn.discordapp.com/attachments/862518605433012268/1115052220887609344/2UOkaqJ.gif"
 ];
 
 function loadRandomImage() {
