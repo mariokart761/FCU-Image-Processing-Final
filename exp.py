@@ -21,7 +21,7 @@ origin_config_data = {
     "statusAdaptiveThreshold": originAdaptiveThreshold
 }
 improvedGaussianFilter = False
-improvedBrightnessFixMethod = "Clahe"
+improvedBrightnessFixMethod = "Adaptive_Gamma"
 improvedSharpen = True
 improvedAdaptiveThreshold = True
 improved_config_data = {
@@ -96,7 +96,7 @@ plt.plot(x, y2, label='Improved ORB')
 plt.xlabel('Brightness increase (%)')  # x 軸標籤
 plt.ylabel('Extract time (ms)')  # y 軸標籤
 # plt.xlim(MIN_BRIGHT, MAX_BRIGHT+1)  # x 軸範圍
-plt.ylim(0, max([max(origin_extraction_time),max(improved_extraction_time)])*3)  # y 軸範圍
+plt.ylim(0, max([max(origin_extraction_time),max(improved_extraction_time)])+20)  # y 軸範圍
 plt.legend()  # 顯示圖
 plt.title('Extract time comparison')  # 圖標題
 plt.gca().xaxis.set_major_locator(plt.MultipleLocator(20)) # 調整 x 軸間距為20
