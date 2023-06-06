@@ -169,6 +169,10 @@ class OrbProcessor:
         # 使用自適應閾值檢測特徵點
         if(self.statusAdaptiveThreshold == True):
             result_img, keypoint_data, used_time = improved_orb.improved_orb_comparison(_img1, _img2)
+            ori_result_img, ori_keypoint_data, ori_used_time = origin_orb.origin_orb_comparison(_img1, _img2)
+            result_img[0] = ori_result_img[0]
+            keypoint_data[0] = ori_keypoint_data[0]
+            used_time[0] = ori_used_time[0]
         # 使用固定閾值檢測特徵點
         elif(self.statusAdaptiveThreshold == False):
             result_img, keypoint_data, used_time = origin_orb.origin_orb_comparison(_img1, _img2)
