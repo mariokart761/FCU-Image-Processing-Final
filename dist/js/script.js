@@ -23,7 +23,6 @@ function showLoadingPage() {
       "animate__zoomIn"
     );
   });
-  console.log("等待中...");
 }
 // 顯示結果頁面
 function showResultPage() {
@@ -35,7 +34,7 @@ function showResultPage() {
   $$("#resultPage").addEventListener("animationend", function () {
     $$("#resultPage").classList.remove("animate__animated", "animate__zoomIn");
   });
-  console.log("顯示結果頁面");
+  loadRandomImage(); //顯示結果時立即刷新Loading頁面的gif
 }
 // 返回主畫面
 function returnToHome() {
@@ -45,7 +44,6 @@ function returnToHome() {
   $$("#homePage").addEventListener("animationend", function () {
     $$("#homePage").classList.remove("animate__animated", "animate__zoomIn");
   });
-  loadRandomImage();
 }
 
 // 亮度校正滑動調整
@@ -88,13 +86,11 @@ $$("#adaptiveThreshold").onclick = function () {
 // 亮度校正方法選擇
 $$("#BrightnessFixMethodSelect").addEventListener("change", function () {
   dataProcessor.statusBrightnessFixMethod = $$("#BrightnessFixMethodSelect").value;
-  console.log(dataProcessor.statusBrightnessFixMethod);
 });
 
 // 實驗選擇
 $$("#experimentSelect").addEventListener("change", function () {
   dataProcessor.statusExperiment = $$("#experimentSelect").value;
-  console.log(dataProcessor.statusExperiment);
   // 選擇論文實驗2時，才會顯示亮度調整
   if ($$("#experimentSelect").value === "exp2") {
     $$("#brightAdj").style.visibility = "visible";

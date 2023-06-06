@@ -117,6 +117,7 @@ async def handle_request(img_content: UploadFile = File(...),
                     "detectTimeLeft":used_time[0],
                     "detectTimeRight":used_time[1],
                     "detectTimeMatch":used_time[2],
+                    "matchingAccuracy": round(keypoint_data[2]/keypoint_data[0]*100, 2)
                     }
             
             time.sleep(response_wait_time)

@@ -123,7 +123,6 @@ document
       formData.append('statusAdaptiveThreshold', dataProcessor.statusAdaptiveThreshold);
       formData.append('statusExperiment', dataProcessor.statusExperiment);
       formData.append('statusBrightAdj', dataProcessor.statusBrightAdj);
-      console.log(formData)
 
       // 顯示等待頁面
       showLoadingPage();
@@ -135,7 +134,6 @@ document
       });
 
       if(dataProcessor.statusExperiment === 'exp1'){
-        console.log("Exp2 response success!");
         var contentType = 'image/jpg';
         var upperKeys = ["Left", "Right"];
         var lowerKeys = ["left", "right"];
@@ -161,33 +159,7 @@ document
 
       }
       else if(dataProcessor.statusExperiment === 'exp2'){
-        console.log("Exp2 response success!");
         var contentType = 'image/jpg';
-
-        // var resultImageLeft = response.data.processedImageLeft;
-        // var resultImageRight = response.data.processedImageRight;
-        // var resultImageMatch = response.data.processedImageMatch;
-        // var blobResultImgLeft = base64ToBlob(resultImageLeft, contentType);
-        // var blobResultImgRight = base64ToBlob(resultImageRight, contentType);
-        // var blobResultImgMatch = base64ToBlob(resultImageMatch, contentType);
-        // var resultImgLeftUrl = URL.createObjectURL(blobResultImgLeft);
-        // var resultImgRightUrl = URL.createObjectURL(blobResultImgRight);
-        // var resultImgMatchUrl = URL.createObjectURL(blobResultImgMatch);
-        // $("#resultImageLeft").attr("src", resultImgLeftUrl);
-        // $("#resultImageRight").attr("src", resultImgRightUrl);
-        // $("#resultImageMatch").attr("src", resultImgMatchUrl);
-        // var keypointNumLeft = response.data.keypointNumLeft;
-        // var keypointNumRight = response.data.keypointNumRight;
-        // var keypointNumMatch = response.data.keypointNumMatch;
-        // var detectTimeLeft = response.data.detectTimeLeft;
-        // var detectTimeRight = response.data.detectTimeRight;
-        // var detectTimeMatch = response.data.detectTimeMatch;
-        // $$("#keypoint-left-num").innerHTML = keypointNumLeft;
-        // $$("#keypoint-right-num").innerHTML = keypointNumRight;
-        // $$("#keypoint-match-num").innerHTML = keypointNumMatch;
-        // $$("#time-left-num").innerHTML = detectTimeLeft + " s";
-        // $$("#time-right-num").innerHTML = detectTimeRight + " s";
-        // $$("#time-match-num").innerHTML = detectTimeMatch + " s";
 
         var upperKeys = ["Left", "Right", "Match"];
         var lowerKeys = ["left", "right", "match"];
@@ -205,6 +177,9 @@ document
           $$("#time" + upperKeys[index] + "Num").innerHTML = dTime + " s";
         });
 
+        var matchAcc = response.data["matchingAccuracy"];
+        $$("#matchAccNum").innerHTML = matchAcc + " %";
+
         $$("#category-title-1").innerHTML = "原亮度檢測結果"
         if(dataProcessor.statusBrightAdj >= 0) var catText2 = "亮度 +" + dataProcessor.statusBrightAdj + "% 檢測結果" ;
         else var catText2 = "亮度 " + dataProcessor.statusBrightAdj + "% 檢測結果";
@@ -219,7 +194,6 @@ document
       }
 
       else if(dataProcessor.statusExperiment === 'exp3'){
-        console.log("Exp3 response success!");
         var contentType = 'image/jpg';
         var resultImage = response.data.processedImage;
         var blobResultImg = base64ToBlob(resultImage, contentType);
