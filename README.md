@@ -4,19 +4,19 @@
 
 基於以下論文所實作的期末專案：
 <br>
-Yong Dai, Jiaxin Wu, **An Improved ORB Feature Extraction Algorithm Based on Enhanced Image and Truncated Adaptive Threshold**, IEEE Access
+* Yong Dai, Jiaxin Wu, **An Improved ORB Feature Extraction Algorithm Based on Enhanced Image and Truncated Adaptive Threshold**, IEEE Access
 <br>
 Paper Link：https://ieeexplore.ieee.org/document/10080936
 <br>
 
-## **介紹影片**
+## **Demo影片**
 
-[影像處理 期末專案 - 介紹與demo - YouTube](連結待補)
+[影像處理 期末專案 - Demo - YouTube](https://youtu.be/qejttYFT1Es)
 <br>
 
 ## **環境需求**
 
-python3.10 
+python3.X 
 
 Official Download Link：
 https://www.python.org/downloads/release/python-3109/
@@ -25,7 +25,7 @@ https://www.python.org/downloads/release/python-3109/
 ## **Dependency library install**
 
 ```
-python3 -m pip install --upgrade pip
+python -m pip install --upgrade pip
 pip install fastapi numpy opencv-python uvicorn python-multipart
 ```
 
